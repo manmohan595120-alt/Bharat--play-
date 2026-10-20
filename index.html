@@ -1,10 +1,12 @@
+
 <!DOCTYPE html>
 <html lang="en">
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
+<meta name="theme-color" content="#087f5b">
 
-<title>Bharat Play</title>
+<title>Bharat Play - Apps & Games</title>
 
 <style>
 * {
@@ -14,99 +16,178 @@
 body {
   margin: 0;
   font-family: Arial, sans-serif;
-  background: #f4f6f9;
-  color: #222;
+  background: #f5f7f8;
+  color: #202124;
 }
 
 header {
-  background: #087443;
+  background: #087f5b;
   color: white;
-  padding: 18px;
-  text-align: center;
+  padding: 18px 15px;
+  position: sticky;
+  top: 0;
+  z-index: 10;
 }
 
-header h1 {
-  margin: 0;
-  font-size: 28px;
+.top {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 10px;
 }
 
-header p {
-  margin-bottom: 0;
+.logo {
+  font-size: 23px;
+  font-weight: bold;
 }
 
-.container {
-  max-width: 900px;
-  margin: auto;
+.admin-btn {
+  border: 1px solid white;
+  color: white;
+  background: transparent;
+  padding: 9px 12px;
+  border-radius: 20px;
+}
+
+.search {
+  width: 100%;
+  margin-top: 16px;
+  padding: 14px;
+  border: none;
+  border-radius: 25px;
+  font-size: 16px;
+  outline: none;
+}
+
+main {
   padding: 16px;
+  max-width: 1100px;
+  margin: auto;
 }
 
-.box {
+h2 {
+  font-size: 20px;
+}
+
+.categories {
+  display: flex;
+  gap: 9px;
+  overflow-x: auto;
+  padding: 5px 0 15px;
+}
+
+.category {
+  flex-shrink: 0;
+  border: 1px solid #ddd;
+  background: white;
+  padding: 10px 15px;
+  border-radius: 22px;
+}
+
+.category.active {
+  background: #087f5b;
+  color: white;
+  border-color: #087f5b;
+}
+
+.app-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(145px, 1fr));
+  gap: 13px;
+}
+
+.app-card {
+  background: white;
+  padding: 15px 10px;
+  border-radius: 15px;
+  box-shadow: 0 2px 7px #0000000c;
+  text-align: center;
+  min-width: 0;
+}
+
+.app-icon {
+  width: 58px;
+  height: 58px;
+  margin: 0 auto 10px;
+  border-radius: 16px;
+  background: #e1f5ec;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-size: 30px;
+}
+
+.app-card h3 {
+  font-size: 15px;
+  margin: 8px 0;
+  overflow-wrap: anywhere;
+}
+
+.app-card p {
+  font-size: 12px;
+  color: #666;
+  min-height: 30px;
+  overflow-wrap: anywhere;
+}
+
+.download {
+  display: inline-block;
+  background: #087f5b;
+  color: white;
+  padding: 10px 12px;
+  text-decoration: none;
+  border-radius: 20px;
+  font-size: 13px;
+  margin-top: 6px;
+}
+
+.panel {
   background: white;
   padding: 18px;
-  border-radius: 12px;
-  margin: 16px 0;
+  border-radius: 15px;
+  margin: 20px 0;
   box-shadow: 0 2px 8px #00000012;
 }
 
-input, textarea, button {
+.panel input,
+.panel textarea,
+.panel select {
   width: 100%;
   padding: 12px;
-  margin: 7px 0;
+  margin: 7px 0 13px;
   border: 1px solid #ccc;
-  border-radius: 7px;
-  font-size: 16px;
+  border-radius: 8px;
+  font-size: 15px;
 }
 
-button {
-  background: #087443;
-  color: white;
+.panel button {
   border: none;
-  cursor: pointer;
+  padding: 12px 16px;
+  background: #087f5b;
+  color: white;
+  border-radius: 8px;
+  margin: 4px;
 }
 
-button:disabled {
-  opacity: 0.6;
-}
-
-.secondary {
-  background: #555;
-}
-
-.delete {
-  background: #c62828;
-}
-
-.app {
-  border: 1px solid #ddd;
-  padding: 14px;
-  border-radius: 10px;
-  margin: 12px 0;
-  background: white;
-}
-
-.app h3 {
-  margin-top: 0;
-}
-
-.app a {
-  color: #087443;
-  overflow-wrap: anywhere;
-}
-
-.status {
-  white-space: pre-wrap;
-  overflow-wrap: anywhere;
-  font-size: 14px;
+.danger {
+  background: #c62828 !important;
 }
 
 .hidden {
   display: none;
 }
 
+.status {
+  font-size: 14px;
+  overflow-wrap: anywhere;
+}
+
 footer {
+  background: #e9efec;
   text-align: center;
-  padding: 20px;
-  color: #666;
+  padding: 22px 10px;
+  margin-top: 30px;
+  font-size: 13px;
 }
 </style>
 </head>
@@ -114,122 +195,131 @@ footer {
 <body>
 
 <header>
-  <h1>🇮🇳 Bharat Play</h1>
-  <p>Discover Apps Made for India</p>
+  <div class="top">
+    <div class="logo">🇮🇳 Bharat Play</div>
+    <button class="admin-btn" id="loginOpen">Admin Login</button>
+  </div>
+
+  <input
+    class="search"
+    id="search"
+    type="search"
+    placeholder="🔍 Search apps and games..."
+  >
 </header>
 
-<div class="container">
+<main>
 
-  <div class="box">
-    <h2>🔍 Search Apps</h2>
+  <section id="loginPanel" class="panel hidden">
+    <h2>Admin Login</h2>
 
-    <input
-      type="search"
-      id="searchInput"
-      placeholder="Search apps..."
-    >
+    <label>Email</label>
+    <input id="email" type="email"
+           placeholder="Admin email">
 
-    <p id="appStatus" class="status">
-      Loading apps...
-    </p>
+    <label>Password</label>
+    <input id="password" type="password"
+           placeholder="Password">
 
-    <div id="appList"></div>
-  </div>
-
-  <div class="box" id="loginBox">
-    <h2>🔐 Admin Login</h2>
-
-    <form id="loginForm">
-      <input
-        type="email"
-        id="email"
-        placeholder="Admin Email"
-        autocomplete="username"
-        required
-      >
-
-      <input
-        type="password"
-        id="password"
-        placeholder="Password"
-        autocomplete="current-password"
-        required
-      >
-
-      <button type="submit" id="loginBtn">
-        Login
-      </button>
-    </form>
-
-    <button type="button"
-      id="resetBtn"
-      class="secondary">
-      Reset Password
+    <button id="loginBtn">Login</button>
+    <button id="resetBtn">Reset Password</button>
+    <button id="closeLogin" style="background:#666">
+      Close
     </button>
 
-    <p id="status" class="status"></p>
-  </div>
+    <p id="loginStatus" class="status"></p>
+  </section>
 
-  <div class="box hidden" id="adminPanel">
-    <h2>⚙️ Admin Panel</h2>
-
+  <section id="adminPanel" class="panel hidden">
+    <h2>Admin Panel</h2>
     <p>Welcome, Admin!</p>
 
     <h3>Add New App</h3>
 
-    <form id="addAppForm">
+    <label>App Name</label>
+    <input id="appName" placeholder="App name">
 
-      <input
-        type="text"
-        id="appName"
-        placeholder="App Name"
-        required
-      >
+    <label>App Description</label>
+    <textarea id="appDescription"
+      placeholder="Describe this app"></textarea>
 
-      <textarea
-        id="appDescription"
-        placeholder="App Description"
-        required
-      ></textarea>
+    <label>Category</label>
+    <select id="appCategory">
+      <option>Social</option>
+      <option>Education</option>
+      <option>Games</option>
+      <option>Entertainment</option>
+      <option>Tools</option>
+      <option>Finance</option>
+      <option>Other</option>
+    </select>
 
-      <input
-        type="url"
-        id="appUrl"
-        placeholder="App Website or Download URL (https://...)"
-        required
-      >
+    <label>App Website or Download URL</label>
+    <input id="appUrl" type="url"
+      placeholder="https://...">
 
-      <button type="submit" id="addBtn">
-        Add App
-      </button>
-
-    </form>
-
-    <button id="logoutBtn" class="secondary">
+    <button id="addBtn">Add App</button>
+    <button id="logoutBtn" style="background:#555">
       Logout
     </button>
 
     <p id="adminStatus" class="status"></p>
+
+    <h3>Your Added Apps</h3>
+    <div id="adminApps"></div>
+  </section>
+
+  <h2>Explore Apps</h2>
+
+  <div class="categories" id="categories">
+    <button class="category active" data-category="All">
+      All
+    </button>
+    <button class="category" data-category="Social">
+      Social
+    </button>
+    <button class="category" data-category="Education">
+      Education
+    </button>
+    <button class="category" data-category="Games">
+      Games
+    </button>
+    <button class="category" data-category="Entertainment">
+      Entertainment
+    </button>
+    <button class="category" data-category="Tools">
+      Tools
+    </button>
+    <button class="category" data-category="Finance">
+      Finance
+    </button>
   </div>
 
-</div>
+  <div id="appGrid" class="app-grid"></div>
+
+  <p id="emptyMessage" class="hidden">
+    No apps found. Try another search.
+  </p>
+
+</main>
 
 <footer>
-  <p>© 2026 Bharat Play | Made in India 🇮🇳</p>
+  <strong>Bharat Play</strong>
+  <p>Discover apps, games and useful tools.</p>
+  <p>Download availability depends on the official provider.</p>
 </footer>
 
 <script type="module">
 
-import {
-  initializeApp
-} from "https://www.gstatic.com/firebasejs/10.12.2/firebase-app.js";
+import { initializeApp }
+  from "https://www.gstatic.com/firebasejs/10.12.2/firebase-app.js";
 
 import {
   getAuth,
   signInWithEmailAndPassword,
-  signOut,
+  sendPasswordResetEmail,
   onAuthStateChanged,
-  sendPasswordResetEmail
+  signOut
 } from "https://www.gstatic.com/firebasejs/10.12.2/firebase-auth.js";
 
 import {
@@ -243,8 +333,7 @@ import {
 } from "https://www.gstatic.com/firebasejs/10.12.2/firebase-firestore.js";
 
 
-// Firebase Configuration
-// Keep your actual Firebase API key here.
+/* Firebase configuration */
 
 const firebaseConfig = {
   apiKey: "AIzaSyBwvt-G96rkGNeUXQQvcJjPPvWhSIHc8Hc",
@@ -256,344 +345,430 @@ const firebaseConfig = {
   measurementId: "G-S2SF10GYD8"
 };
 
-
-// Admin email
 const ADMIN_EMAIL = "manmohan595120@gmail.com";
 
-const $ = id => document.getElementById(id);
-
-let auth;
-let db;
-let isAdmin = false;
-let allApps = [];
-
-function setStatus(message) {
-  $("status").textContent = message;
-}
-
-function validHttpUrl(value) {
-  try {
-    const url = new URL(value);
-
-    if (url.protocol === "https:" ||
-        url.protocol === "http:") {
-      return url.href;
-    }
-  } catch (error) {}
-
-  return null;
-}
+const firebaseApp = initializeApp(firebaseConfig);
+const auth = getAuth(firebaseApp);
+const db = getFirestore(firebaseApp);
 
 
-// Show apps on the website
-function showApps() {
-  const list = $("appList");
-  list.replaceChildren();
+/* Initial app catalogue.
+   These are official websites, not direct APK files. */
 
-  const search = $("searchInput").value
-    .trim()
-    .toLowerCase();
-
-  const filtered = allApps.filter(app => {
-    const name = String(app.name || "").toLowerCase();
-    const description =
-      String(app.description || "").toLowerCase();
-
-    return name.includes(search) ||
-           description.includes(search);
-  });
-
-  if (filtered.length === 0) {
-    list.textContent = "No apps found.";
-    return;
+const starterApps = [
+  {
+    name: "YouTube",
+    description: "Videos, music and entertainment",
+    category: "Entertainment",
+    icon: "▶️",
+    url: "https://www.youtube.com"
+  },
+  {
+    name: "WhatsApp",
+    description: "Messaging and calls",
+    category: "Social",
+    icon: "💬",
+    url: "https://www.whatsapp.com/download"
+  },
+  {
+    name: "Instagram",
+    description: "Photos, reels and messages",
+    category: "Social",
+    icon: "📸",
+    url: "https://www.instagram.com"
+  },
+  {
+    name: "Facebook",
+    description: "Connect with friends",
+    category: "Social",
+    icon: "👥",
+    url: "https://www.facebook.com"
+  },
+  {
+    name: "Telegram",
+    description: "Messaging and channels",
+    category: "Social",
+    icon: "✈️",
+    url: "https://telegram.org"
+  },
+  {
+    name: "Google Maps",
+    description: "Maps and navigation",
+    category: "Tools",
+    icon: "🗺️",
+    url: "https://maps.google.com"
+  },
+  {
+    name: "Gmail",
+    description: "Email and communication",
+    category: "Tools",
+    icon: "✉️",
+    url: "https://mail.google.com"
+  },
+  {
+    name: "Google Chrome",
+    description: "Browse the internet",
+    category: "Tools",
+    icon: "🌐",
+    url: "https://www.google.com/chrome"
+  },
+  {
+    name: "Google Meet",
+    description: "Video meetings and calls",
+    category: "Education",
+    icon: "📹",
+    url: "https://meet.google.com"
+  },
+  {
+    name: "Google Classroom",
+    description: "Learning and classroom tools",
+    category: "Education",
+    icon: "📚",
+    url: "https://classroom.google.com"
+  },
+  {
+    name: "Canva",
+    description: "Design posters and presentations",
+    category: "Tools",
+    icon: "🎨",
+    url: "https://www.canva.com"
+  },
+  {
+    name: "Spotify",
+    description: "Music and podcasts",
+    category: "Entertainment",
+    icon: "🎵",
+    url: "https://www.spotify.com/download"
+  },
+  {
+    name: "Snapchat",
+    description: "Photos and messaging",
+    category: "Social",
+    icon: "👻",
+    url: "https://www.snapchat.com"
+  },
+  {
+    name: "Khan Academy",
+    description: "Free educational lessons",
+    category: "Education",
+    icon: "🎓",
+    url: "https://www.khanacademy.org"
+  },
+  {
+    name: "Google Pay",
+    description: "Digital payments information",
+    category: "Finance",
+    icon: "💳",
+    url: "https://pay.google.com"
   }
+];
 
-  filtered.forEach(app => {
-    const card = document.createElement("div");
-    card.className = "app";
+let apps = [];
+let selectedCategory = "All";
+let currentUser = null;
+let customApps = [];
 
-    const title = document.createElement("h3");
-    title.textContent = app.name || "Unnamed App";
 
-    const description = document.createElement("p");
-    description.textContent = app.description || "";
+/* HTML-safe text */
 
-    card.append(title, description);
-
-    const safeUrl = validHttpUrl(app.url || "");
-
-    if (safeUrl) {
-      const link = document.createElement("a");
-
-      link.href = safeUrl;
-      link.textContent = "Open / Download App";
-      link.target = "_blank";
-      link.rel = "noopener noreferrer";
-
-      card.appendChild(link);
-    }
-
-    if (isAdmin) {
-      const deleteButton =
-        document.createElement("button");
-
-      deleteButton.className = "delete";
-      deleteButton.textContent = "Delete App";
-
-      deleteButton.addEventListener("click", async () => {
-        const confirmed = confirm(
-          "Are you sure you want to delete this app?"
-        );
-
-        if (!confirmed) return;
-
-        try {
-          await deleteDoc(doc(db, "apps", app.id));
-
-          $("adminStatus").textContent =
-            "App deleted successfully.";
-
-          await loadApps();
-
-        } catch (error) {
-          $("adminStatus").textContent =
-            "Delete error: " + error.message;
-        }
-      });
-
-      card.appendChild(deleteButton);
-    }
-
-    list.appendChild(card);
-  });
+function safeText(value) {
+  return String(value ?? "").replace(/[&<>"']/g, char => ({
+    "&": "&amp;",
+    "<": "&lt;",
+    ">": "&gt;",
+    '"': "&quot;",
+    "'": "&#39;"
+  })[char]);
 }
 
 
-// Load apps from Firestore
-async function loadApps() {
-  $("appStatus").textContent = "Loading apps...";
+/* Only allow normal HTTPS links */
 
+function validUrl(value) {
   try {
-    const snapshot = await getDocs(
-      collection(db, "apps")
-    );
+    const parsed = new URL(value);
+    return parsed.protocol === "https:";
+  } catch {
+    return false;
+  }
+}
 
-    allApps = snapshot.docs.map(item => ({
+
+/* Load custom apps from Firestore */
+
+async function loadApps() {
+  try {
+    const snapshot = await getDocs(collection(db, "apps"));
+
+    customApps = snapshot.docs.map(item => ({
       id: item.id,
-      ...item.data()
+      ...item.data(),
+      custom: true
     }));
 
-    allApps.sort((a, b) => {
-      const timeA = a.createdAt?.seconds || 0;
-      const timeB = b.createdAt?.seconds || 0;
-
-      return timeB - timeA;
-    });
-
-    showApps();
-
-    $("appStatus").textContent =
-      allApps.length + " app(s) available.";
+    apps = [...starterApps, ...customApps];
 
   } catch (error) {
-    $("appStatus").textContent =
-      "Could not load apps. Check Firestore rules. " +
-      error.code;
+    console.error(error);
 
-    console.error("Load apps error:", error);
+    apps = [...starterApps];
+
+    document.getElementById("adminStatus").textContent =
+      "Saved apps could not be loaded. Check Firestore permissions.";
   }
+
+  renderApps();
+  renderAdminApps();
 }
 
 
-// Login
-$("loginForm").addEventListener("submit", async event => {
-  event.preventDefault();
+/* Display app cards */
 
-  const email = $("email").value.trim();
-  const password = $("password").value;
+function renderApps() {
+  const grid = document.getElementById("appGrid");
+  const search = document.getElementById("search")
+    .value.trim().toLowerCase();
 
-  if (!email || !password) {
-    setStatus("Enter email and password.");
-    return;
-  }
+  const filtered = apps.filter(app => {
+    const matchesSearch =
+      (app.name || "").toLowerCase().includes(search) ||
+      (app.description || "").toLowerCase().includes(search);
 
-  $("loginBtn").disabled = true;
-  setStatus("Signing in...");
+    const matchesCategory =
+      selectedCategory === "All" ||
+      app.category === selectedCategory;
 
-  try {
-    const result = await signInWithEmailAndPassword(
-      auth,
-      email,
-      password
-    );
+    return matchesSearch && matchesCategory;
+  });
 
-    if (
-      result.user.email.toLowerCase() !==
-      ADMIN_EMAIL.toLowerCase()
-    ) {
-      await signOut(auth);
+  grid.innerHTML = filtered.map(app => `
+    <article class="app-card">
+      <div class="app-icon">
+        ${safeText(app.icon || "📱")}
+      </div>
 
-      setStatus("This email is not the admin email.");
-      return;
-    }
+      <h3>${safeText(app.name)}</h3>
+      <p>${safeText(app.description || "Discover this app")}</p>
 
-    setStatus("Login successful.");
+      <a class="download"
+         href="${validUrl(app.url) ? safeText(app.url) : "#"}"
+         target="_blank"
+         rel="noopener noreferrer">
+        Visit / Download
+      </a>
+    </article>
+  `).join("");
 
-  } catch (error) {
-    setStatus(
-      "Login failed: " +
-      (error.code || error.message)
-    );
+  document.getElementById("emptyMessage")
+    .classList.toggle("hidden", filtered.length !== 0);
+}
 
-    console.error("Login error:", error);
 
-  } finally {
-    $("loginBtn").disabled = false;
-  }
+/* Search */
+
+document.getElementById("search").addEventListener("input", renderApps);
+
+
+/* Categories */
+
+document.querySelectorAll(".category").forEach(button => {
+  button.addEventListener("click", () => {
+    selectedCategory = button.dataset.category;
+
+    document.querySelectorAll(".category").forEach(item => {
+      item.classList.toggle("active", item === button);
+    });
+
+    renderApps();
+  });
 });
 
 
-// Reset password
-$("resetBtn").addEventListener("click", async () => {
-  const email = $("email").value.trim();
+/* Admin login panel */
+
+document.getElementById("loginOpen").onclick = () => {
+  document.getElementById("loginPanel").classList.toggle("hidden");
+};
+
+document.getElementById("closeLogin").onclick = () => {
+  document.getElementById("loginPanel").classList.add("hidden");
+};
+
+document.getElementById("loginBtn").onclick = async () => {
+  const email = document.getElementById("email").value.trim();
+  const password = document.getElementById("password").value;
+  const status = document.getElementById("loginStatus");
+
+  if (!email || !password) {
+    status.textContent = "Enter email and password.";
+    return;
+  }
+
+  try {
+    await signInWithEmailAndPassword(auth, email, password);
+    status.textContent = "Login successful.";
+  } catch (error) {
+    status.textContent = "Login failed: " + error.message;
+  }
+};
+
+
+/* Password reset */
+
+document.getElementById("resetBtn").onclick = async () => {
+  const email = document.getElementById("email").value.trim();
+  const status = document.getElementById("loginStatus");
 
   if (!email) {
-    setStatus("Enter your email first.");
+    status.textContent = "Enter your registered email first.";
     return;
   }
 
   try {
     await sendPasswordResetEmail(auth, email);
-
-    setStatus(
-      "If the account is eligible, a password reset email has been sent. Check Spam too."
-    );
-
+    status.textContent =
+      "Password reset email sent. Check your inbox.";
   } catch (error) {
-    setStatus(
-      "Reset error: " +
-      (error.code || error.message)
-    );
-
-    console.error("Password reset error:", error);
+    status.textContent = error.message;
   }
+};
+
+
+/* Admin session */
+
+onAuthStateChanged(auth, user => {
+  currentUser = user;
+
+  const isAdmin =
+    user && user.email &&
+    user.email.toLowerCase() === ADMIN_EMAIL.toLowerCase();
+
+  document.getElementById("adminPanel")
+    .classList.toggle("hidden", !isAdmin);
+
+  document.getElementById("loginOpen").textContent =
+    isAdmin ? "Admin Panel" : "Admin Login";
+
+  if (!isAdmin && user) {
+    document.getElementById("loginStatus").textContent =
+      "This account is not the configured admin account.";
+  }
+
+  renderAdminApps();
 });
 
 
-// Add app
-$("addAppForm").addEventListener("submit", async event => {
-  event.preventDefault();
+/* Add app */
 
-  if (!isAdmin) {
-    $("adminStatus").textContent =
-      "Please log in as admin first.";
+document.getElementById("addBtn").onclick = async () => {
+  const status = document.getElementById("adminStatus");
+
+  if (!currentUser ||
+      currentUser.email.toLowerCase() !== ADMIN_EMAIL.toLowerCase()) {
+    status.textContent = "Please log in with the admin account.";
     return;
   }
 
-  const name = $("appName").value.trim();
+  const name = document.getElementById("appName").value.trim();
   const description =
-    $("appDescription").value.trim();
+    document.getElementById("appDescription").value.trim();
+  const category = document.getElementById("appCategory").value;
+  const url = document.getElementById("appUrl").value.trim();
 
-  const url = validHttpUrl(
-    $("appUrl").value.trim()
-  );
-
-  if (!url) {
-    $("adminStatus").textContent =
-      "Enter a valid http or https URL.";
+  if (!name || !description || !url) {
+    status.textContent = "Please fill all fields.";
     return;
   }
 
-  $("addBtn").disabled = true;
+  if (!validUrl(url)) {
+    status.textContent = "Enter a valid HTTPS website or download URL.";
+    return;
+  }
 
   try {
     await addDoc(collection(db, "apps"), {
       name,
       description,
+      category,
       url,
       createdAt: serverTimestamp()
     });
 
-    $("addAppForm").reset();
+    status.textContent = "App added successfully!";
 
-    $("adminStatus").textContent =
-      "App added successfully!";
+    document.getElementById("appName").value = "";
+    document.getElementById("appDescription").value = "";
+    document.getElementById("appUrl").value = "";
 
     await loadApps();
 
   } catch (error) {
-    $("adminStatus").textContent =
-      "Add error: " +
-      (error.code || error.message);
-
-    console.error("Add app error:", error);
-
-  } finally {
-    $("addBtn").disabled = false;
+    console.error(error);
+    status.textContent =
+      "App could not be saved. Check Firestore security rules.";
   }
-});
+};
 
 
-// Search
-$("searchInput").addEventListener("input", showApps);
+/* List custom apps in Admin Panel */
 
+function renderAdminApps() {
+  const container = document.getElementById("adminApps");
 
-// Logout
-$("logoutBtn").addEventListener("click", async () => {
-  try {
-    await signOut(auth);
-    setStatus("Logged out successfully.");
-  } catch (error) {
-    $("adminStatus").textContent = error.message;
+  const isAdmin =
+    currentUser && currentUser.email &&
+    currentUser.email.toLowerCase() === ADMIN_EMAIL.toLowerCase();
+
+  if (!isAdmin) {
+    container.innerHTML = "";
+    return;
   }
-});
 
+  if (customApps.length === 0) {
+    container.innerHTML = "<p>No custom apps added yet.</p>";
+    return;
+  }
 
-// Initialize Firebase
-try {
-  const app = initializeApp(firebaseConfig);
+  container.innerHTML = customApps.map(app => `
+    <div class="panel">
+      <strong>${safeText(app.name)}</strong>
+      <p>${safeText(app.category || "Other")}</p>
+      <button class="danger"
+        data-delete-id="${safeText(app.id)}">
+        Delete App
+      </button>
+    </div>
+  `).join("");
 
-  auth = getAuth(app);
-  db = getFirestore(app);
+  container.querySelectorAll("[data-delete-id]").forEach(button => {
+    button.onclick = async () => {
+      if (!confirm("Delete this app from Bharat Play?")) return;
 
-  onAuthStateChanged(auth, async user => {
-    isAdmin = Boolean(
-      user &&
-      user.email &&
-      user.email.toLowerCase() ===
-      ADMIN_EMAIL.toLowerCase()
-    );
-
-    $("adminPanel").classList.toggle(
-      "hidden",
-      !isAdmin
-    );
-
-    $("loginBox").classList.toggle(
-      "hidden",
-      isAdmin
-    );
-
-    if (isAdmin) {
-      $("status").textContent =
-        "Admin login successful.";
-    }
-
-    showApps();
-
-    await loadApps();
+      try {
+        await deleteDoc(doc(db, "apps", button.dataset.deleteId));
+        document.getElementById("adminStatus").textContent =
+          "App deleted.";
+        await loadApps();
+      } catch (error) {
+        document.getElementById("adminStatus").textContent =
+          "Could not delete app. Check Firestore permissions.";
+      }
+    };
   });
-
-} catch (error) {
-  setStatus(
-    "Firebase setup error: " + error.message
-  );
-
-  $("appStatus").textContent =
-    "Firebase setup error.";
-
-  console.error("Firebase setup error:", error);
 }
+
+
+/* Logout */
+
+document.getElementById("logoutBtn").onclick = async () => {
+  await signOut(auth);
+  document.getElementById("adminStatus").textContent = "Logged out.";
+};
+
+
+/* Start */
+
+loadApps();
 
 </script>
 
