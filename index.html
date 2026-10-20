@@ -3,391 +3,277 @@
 <html lang="en">
 <head>
 <meta charset="UTF-8">
-<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<meta name="viewport" content="width=device-width,initial-scale=1">
 <meta name="theme-color" content="#087f5b">
-
-<title>Bharat Play - Apps & Games</title>
-
+<title>Bharat Play</title>
 <style>
-* {
-  box-sizing: border-box;
-}
-
-body {
-  margin: 0;
-  font-family: Arial, sans-serif;
-  background: #f5f7f8;
-  color: #202124;
-}
-
-header {
-  background: #087f5b;
-  color: white;
-  padding: 18px 15px;
-  position: sticky;
-  top: 0;
-  z-index: 10;
-}
-
-.top {
-  display: flex;
-  align-items: center;
-  justify-content: space-between;
-  gap: 10px;
-}
-
-.logo {
-  font-size: 23px;
-  font-weight: bold;
-}
-
-.admin-btn {
-  border: 1px solid white;
-  color: white;
-  background: transparent;
-  padding: 9px 12px;
-  border-radius: 20px;
-}
-
-.search {
-  width: 100%;
-  margin-top: 16px;
-  padding: 14px;
-  border: none;
-  border-radius: 25px;
-  font-size: 16px;
-  outline: none;
-}
-
-main {
-  padding: 16px;
-  max-
-  margin-top: 6px;
-}
-
-.panel {
-  background: white;
-  padding: 18px;
-  border-radius: 15px;
-  margin: 20px 0;
-  box-shadow: 0 2px 8px #00000012;
-}
-
-.panel input,
-.panel textarea,
-.panel select {
-  width: 100%;
-  padding: 12px;
-  margin: 7px 0 13px;
-  border: 1px solid #ccc;
-  border-radius: 8px;
-  font-size: 15px;
-}
-
-.panel button {
-  border: none;
-  padding: 12px 16px;
-  background: #087f5b;
-  color: white;
-  border-radius: 8px;
-  margin: 4px;
-}
-
-.danger {
-  background: #c62828 !important;
-}
-
-.hidden {
-  display: none;
-}
-
-.status {
-  font-size: 14px;
-  overflow-wrap: anywhere;
-}
-
-footer {
-  background: #e9efec;
-  text-align: center;
-  padding: 22px 10px;
-  margin-top: 30px;
-  font-size: 13px;
-}
+*{box-sizing:border-box}
+body{margin:0;font-family:Arial,sans-serif;background:#f5f7f8;color:#202124}
+header{background:#087f5b;color:white;padding:16px;position:sticky;top:0;z-index:5}
+.top{display:flex;justify-content:space-between;align-items:center;gap:10px}
+.logo{font-size:23px;font-weight:bold}
+button{cursor:pointer}
+.admin{background:transparent;color:white;border:1px solid white;padding:9px;border-radius:20px}
+input,textarea,select{width:100%;padding:12px;margin:7px 0 12px;border:1px solid #ccc;border-radius:9px;font-size:15px}
+#search{border:0;border-radius:25px;margin-top:15px}
+main{max-width:1100px;margin:auto;padding:15px}
+.categories{display:flex;gap:8px;overflow-x:auto;padding:8px 0 15px}
+.cat{white-space:nowrap;background:white;border:1px solid #ddd;border-radius:20px;padding:10px 14px}
+.cat.active,.green{background:#087f5b;color:white;border:0}
+.grid{display:grid;grid-template-columns:repeat(auto-fit,minmax(145px,1fr));gap:12px}
+.card{background:white;border-radius:14px;padding:14px 9px;text-align:center;box-shadow:0 2px 8px #0000000b;overflow-wrap:anywhere}
+.icon{font-size:31px;width:58px;height:58px;margin:auto;background:#e1f5ec;border-radius:16px;display:grid;place-items:center}
+.card h3{font-size:15px;margin:10px 0 5px}
+.card p{font-size:12px;color:#666;min-height:28px}
+.download{display:inline-block;background:#087f5b;color:white;text-decoration:none;padding:10px;border-radius:20px;font-size:12px}
+.panel{background:white;padding:16px;margin:16px 0;border-radius:14px}
+.panel button{padding:11px;border:0;border-radius:8px;margin:3px}
+.hidden{display:none}
+.status{overflow-wrap:anywhere;font-size:14px}
+footer{text-align:center;background:#e9efec;padding:22px}
 </style>
 </head>
-
 <body>
-
 <header>
-  <div class="top">
-    <div class="logo">🇮🇳 Bharat Play</div>
-    <button class="admin-btn" id="loginOpen">Admin Login</button>
-  </div>
-
-  <input
-    class="search"
-    id="search"
-    type="search"
-    placeholder="🔍 Search apps and games..."
-  >
+ <div class="top">
+  <div class="logo">🇮🇳 Bharat Play</div>
+  <button class="admin" id="loginOpen">Admin Login</button>
+ </div>
+ <input id="search" placeholder="🔍 Search apps and games...">
 </header>
 
 <main>
+<section id="loginPanel" class="panel hidden">
+ <h3>Admin Login</h3>
+ <input id="email" type="email" placeholder="Admin email">
+ <input id="password" type="password" placeholder="Password">
+ <button class="green" id="loginBtn">Login</button>
+ <button id="resetBtn">Reset Password</button>
+ <button id="closeLogin">Close</button>
+ <p id="loginStatus" class="status"></p>
+</section>
 
-  <section id="loginPanel" class="panel hidden">
-    <h2>Admin Login</h2>
+<section id="adminPanel" class="panel hidden">
+ <h2>Admin Panel</h2>
+ <p>Welcome, Admin!</p>
+ <h3>Add New App</h3>
+ <input id="appName" placeholder="App Name">
+ <textarea id="appDescription" placeholder="App Description"></textarea>
+ <select id="appCategory">
+  <option>Social</option><option>Education</option><option>Games</option>
+  <option>Entertainment</option><option>Tools</option><option>Finance</option>
+  <option>Shopping</option><option>Other</option>
+ </select>
+ <input id="appUrl" type="url" placeholder="Official website or download URL (https://...)">
+ <button class="green" id="addBtn">Add App</button>
+ <button id="logoutBtn">Logout</button>
+ <p id="adminStatus" class="status"></p>
+ <h3>Your Added Apps</h3><div id="adminApps"></div>
+</section>
 
-    <label>Email</label>
-    <input id="email" type="email"
-           placeholder="Admin email">
-
-    <label>Password</label>
-    <input id="password" type="password"
-           placeholder="Password">
-
-    <button id="loginBtn">Login</button>
-    <button id="resetBtn">Reset Password</button>
-    <button id="closeLogin" style="background:#666">
-      Close
-    </button>
-
-    <p id="loginStatus" class="status"></p>
-  </section>
-
-  <section id="adminPanel" class="panel hidden">
-    <h2>Admin Panel</h2>
-    <p>Welcome, Admin!</p>
-
-    <h3>Add New App</h3>
-
-    <label>App Name</label>
-    <input id="appName" placeholder="App name">
-
-    <label>App Description</label>
-    <textarea id="appDescription"
-      placeholder="Describe this app"></textarea>
-
-    <label>Category</label>
-    <select id="appCategory">
-      <option>Social</option>
-      <option>Education</option>
-      <option>Games</option>
-      <option>Entertainment</option>
-      <option>Tools</option>
-      <option>Finance</option>
-      <option>Other</option>
-    </select>
-
-    <label>App Website or Download URL</label>
-    <input id="appUrl" type="url"
-      placeholder="https://...">
-
-    <button id="addBtn">Add App</button>
-    <button id="logoutBtn" style="background:#555">
-      Logout
-    </button>
-
-    <p id="adminStatus" class="status"></p>
-
-    <h3>Your Added Apps</h3>
-    <div id="adminApps"></div>
-  </section>
-
-  <h2>Explore Apps</h2>
-
-  <div class="categories" id="categories">
-    <button class="category active" data-category="All">
-      All
-    </button>
-    <button class="category" data-category="Social">
-      Social
-    </button>
-    <button class="category" data-category="Education">
-      Education
-    </button>
-    <button class="category" data-category="Games">
-      Games
-    </button>
-    <button class="category" data-category="Entertainment">
-      Entertainment
-    </button>
-    <button class="category" data-category="Tools">
-      Tools
-    </button>
-    <button class="category" data-category="Finance">
-      Finance
-    </button>
-  </div>
-
-  <div id="appGrid" class="app-grid"></div>
-
-  <p id="emptyMessage" class="hidden">
-    No apps found. Try another search.
-  </p>
-
+<h2>Explore Apps & Games</h2>
+<div class="categories" id="categories">
+ <button class="cat active" data-cat="All">All Apps</button>
+ <button class="cat" data-cat="Social">Social</button>
+ <button class="cat" data-cat="Education">Education</button>
+ <button class="cat" data-cat="Games">Games</button>
+ <button class="cat" data-cat="Entertainment">Entertainment</button>
+ <button class="cat" data-cat="Tools">Tools</button>
+ <button class="cat" data-cat="Finance">Finance</button>
+ <button class="cat" data-cat="Shopping">Shopping</button>
+</div>
+<div id="grid" class="grid"></div>
+<p id="empty" class="hidden">No apps found.</p>
 </main>
 
 <footer>
-  <strong>Bharat Play</strong>
-  <p>Discover apps, games and useful tools.</p>
-  <p>Download availability depends on the official provider.</p>
+ <b>Bharat Play</b>
+ <p>Discover apps, games and useful tools.</p>
+ <small>Downloads open the listed official website. Actual APK availability depends on the app provider.</small>
 </footer>
 
 <script type="module">
+import {initializeApp} from "https://www.gstatic.com/firebasejs/10.12.2/firebase-app.js";
+import {getAuth,signInWithEmailAndPassword,sendPasswordResetEmail,onAuthStateChanged,signOut} from "https://www.gstatic.com/firebasejs/10.12.2/firebase-auth.js";
+import {getFirestore,collection,getDocs,addDoc,deleteDoc,doc,serverTimestamp} from "https://www.gstatic.com/firebasejs/10.12.2/firebase-firestore.js";
 
-import { initializeApp }
-  from "https://www.gstatic.com/firebasejs/10.12.2/firebase-app.js";
+const firebaseConfig={
+ apiKey:"AIzaSyBwvt-G96rkGNeUXQQvcJjPPvWhSIHc8Hc",
+ authDomain:"bharat--play.firebaseapp.com",
+ projectId:"bharat--play",
+ storageBucket:"bharat--play.firebasestorage.app",
+ messagingSenderId:"1052808095459",
+ appId:"1:1052808095459:web:86b4125fda3bbfaee707d6",
+ measurementId:"G-S2SF10GYD8"
+};
+const ADMIN_EMAIL="manmohan595120@gmail.com";
+const auth=getAuth(initializeApp(firebaseConfig));
+const db=getFirestore();
+let user=null,custom=[],category="All";
 
-import {
-  getAuth,
-  signInWithEmailAndPassword,
-  sendPasswordResetEmail,
-  onAuthStateChanged,
-  signOut
-} from "https://www.gstatic.com/firebasejs/10.12.2/firebase-auth.js";
+const starter=[
+["WhatsApp","Messaging and calls","Social","💬","https://www.whatsapp.com/download/android"],
+["Instagram","Photos and reels","Social","📸","https://www.instagram.com"],
+["Facebook","Connect with friends","Social","👥","https://www.facebook.com"],
+["Facebook Lite","Lightweight social app","Social","👥","https://www.facebook.com"],
+["Telegram","Messaging and channels","Social","✈️","https://telegram.org/apps"],
+["Snapchat","Photos and messaging","Social","👻","https://www.snapchat.com"],
+["Pinterest","Ideas and inspiration","Social","📌","https://www.pinterest.com"],
+["Discord","Communities and chat","Social","🎮","https://discord.com"],
+["LinkedIn","Professional networking","Social","💼","https://www.linkedin.com"],
+["X","News and conversations","Social","𝕏","https://x.com"],
+["Threads","Public conversations","Social","🧵","https://www.threads.net"],
+["Reddit","Communities and discussions","Social","🗨️","https://www.reddit.com"],
+["YouTube","Videos and entertainment","Entertainment","▶️","https://www.youtube.com"],
+["Spotify","Music and podcasts","Entertainment","🎵","https://www.spotify.com"],
+["YouTube Music","Music streaming","Entertainment","🎶","https://music.youtube.com"],
+["Netflix","Movies and series","Entertainment","🎬","https://www.netflix.com"],
+["JioHotstar","Shows and sports","Entertainment","📺","https://www.hotstar.com"],
+["Amazon Prime Video","Movies and shows","Entertainment","🎥","https://www.primevideo.com"],
+["Twitch","Live streaming","Entertainment","🟣","https://www.twitch.tv"],
+["SoundCloud","Music and audio","Entertainment","🎧","https://soundcloud.com"],
+["Google Chrome","Web browser","Tools","🌐","https://www.google.com/chrome"],
+["Firefox","Web browser","Tools","🦊","https://www.mozilla.org/firefox/mobile"],
+["Google Maps","Maps and navigation","Tools","🗺️","https://maps.google.com"],
+["Gmail","Email service","Tools","✉️","https://mail.google.com"],
+["Google Drive","Cloud storage","Tools","☁️","https://drive.google.com"],
+["Google Photos","Photo storage","Tools","🌄","https://photos.google.com"],
+["Google Translate","Language translation","Tools","🌍","https://translate.google.com"],
+["Google Meet","Video meetings","Tools","📹","https://meet.google.com"],
+["Google Calendar","Calendar and events","Tools","📅","https://calendar.google.com"],
+["Google Keep","Notes and lists","Tools","📝","https://keep.google.com"],
+["Canva","Design and posters","Tools","🎨","https://www.canva.com/en_in/download/android/"],
+["Adobe Acrobat","PDF documents","Tools","📄","https://www.adobe.com/acrobat/mobile.html"],
+["Microsoft 365","Office productivity","Tools","📘","https://www.microsoft.com/microsoft-365/mobile"],
+["Dropbox","Cloud storage","Tools","📦","https://www.dropbox.com"],
+["Shazam","Identify music","Tools","🎼","https://www.shazam.com"],
+["Khan Academy","Free learning","Education","🎓","https://www.khanacademy.org"],
+["Duolingo","Language learning","Education","🦉","https://www.duolingo.com"],
+["Google Classroom","Classroom tools","Education","📚","https://classroom.google.com"],
+["Coursera","Online courses","Education","🎓","https://www.coursera.org"],
+["Udemy","Online courses","Education","📖","https://www.udemy.com"],
+["Wikipedia","Encyclopedia","Education","📚","https://www.wikipedia.org"],
+["Photomath","Math learning","Education","➗","https://photomath.com"],
+["Quizlet","Study flashcards","Education","🗂️","https://quizlet.com"],
+["Chess.com","Play and learn chess","Games","♟️","https://www.chess.com"],
+["Roblox","Games and experiences","Games","🎮","https://www.roblox.com"],
+["Minecraft","Building and adventure","Games","🧱","https://www.minecraft.net"],
+["Among Us","Multiplayer game","Games","🚀","https://www.innersloth.com"],
+["Subway Surfers","Arcade game","Games","🏃","https://subwaysurfers.com"],
+["Clash of Clans","Strategy game","Games","🏰","https://supercell.com"],
+["Clash Royale","Strategy battles","Games","👑","https://supercell.com"],
+["Candy Crush Saga","Puzzle game","Games","🍬","https://www.king.com"],
+["Asphalt Legends","Racing game","Games","🏎️","https://asphaltlegends.com"],
+["Call of Duty","Action game","Games","🎯","https://www.callofduty.com"],
+["Amazon Shopping","Online shopping","Shopping","🛒","https://www.amazon.in"],
+["Flipkart","Online shopping","Shopping","🛍️","https://www.flipkart.com"],
+["Myntra","Fashion shopping","Shopping","👕","https://www.myntra.com"],
+["Meesho","Online shopping","Shopping","📦","https://www.meesho.com"],
+["AJIO","Fashion shopping","Shopping","👟","https://www.ajio.com"],
+["Paytm","Payments and services","Finance","💳","https://paytm.com"],
+["PhonePe","Payments and services","Finance","💜","https://www.phonepe.com"],
+["Google Pay","Payments and services","Finance","💵","https://pay.google.com"],
+["BHIM UPI","Digital payments","Finance","🇮🇳","https://www.bhimupi.org.in"],
+["Groww","Investment platform","Finance","📈","https://groww.in"],
+["Microsoft Teams","Work and meetings","Tools","👨‍💻","https://www.microsoft.com/microsoft-teams"],
+["Google Play","Official Android app store","Tools","▶️","https://play.google.com/store/apps"],
+["Truecaller","Caller identification","Tools","📞","https://www.truecaller.com"],
+["CamScanner","Scan documents","Tools","📑","https://www.camscanner.com"],
+["Picsart","Photo editing","Tools","🖼️","https://picsart.com"],
+["KineMaster","Video editing","Tools","🎞️","https://www.kinemaster.com"],
+["InShot","Video editing","Tools","✂️","https://inshot.com"],
+["VLC","Media player","Tools","▶️","https://www.videolan.org/vlc/"]
+].map(a=>({name:a[0],description:a[1],category:a[2],icon:a[3],url:a[4]}));
 
-import {
-  getFirestore,
-  collection,
-  getDocs,
-  addDoc,
-  deleteDoc,
-  doc,
-  serverTimestamp
-} from "https://www.gstatic.com/firebasejs/10.12.2/firebase-firestore.js";
+function esc(v){return String(v??"").replace(/[&<>"']/g,c=>({"&":"&amp;","<":"&lt;",">":"&gt;",'"':"&quot;","'":"&#39;"}[c]));}
+function safeUrl(v){try{return new URL(v).protocol==="https:";}catch{return false;}}
 
+async function load(){
+ try{
+  const s=await getDocs(collection(db,"apps"));
+  custom=s.docs.map(d=>({id:d.id,...d.data(),custom:true}));
+ }catch(e){custom=[];console.error(e);}
+ render();renderAdmin();
+}
 
-/* Firebase configuration */
+function render(){
+ const term=document.getElementById("search").value.trim().toLowerCase();
+ const list=[...starter,...custom].filter(a=>
+  (category==="All"||a.category===category)&&
+  ((a.name||"").toLowerCase().includes(term)||(a.description||"").toLowerCase().includes(term))
+ );
+ document.getElementById("grid").innerHTML=list.map(a=>`
+ <article class="card">
+  <div class="icon">${esc(a.icon||"📱")}</div>
+  <h3>${esc(a.name)}</h3>
+  <p>${esc(a.description||"Discover this app")}</p>
+  <a class="download" href="${safeUrl(a.url)?esc(a.url):"#"}" target="_blank" rel="noopener noreferrer">Visit / Download</a>
+ </article>`).join("");
+ document.getElementById("empty").classList.toggle("hidden",list.length>0);
+}
+document.getElementById("search").addEventListener("input",render);
+document.querySelectorAll(".cat").forEach(b=>b.onclick=()=>{
+ category=b.dataset.cat;
+ document.querySelectorAll(".cat").forEach(x=>x.classList.toggle("active",x===b));
+ render();
+});
 
-const firebaseConfig = {
-  apiKey: "AIzaSyBwvt-G96rkGNeUXQQvcJjPPvWhSIHc8Hc",
-  authDomain: "bharat--play.firebaseapp.com",
-  projectId: "bharat--play",
-  storageBucket: "bharat--play.firebasestorage.app",
-  messagingSenderId: "1052808095459",
-  appId: "1:1052808095459:web:86b4125fda3bbfaee707d6",
-  measurementId: "G-S2SF10GYD8"
+document.getElementById("loginOpen").onclick=()=>document.getElementById("loginPanel").classList.toggle("hidden");
+document.getElementById("closeLogin").onclick=()=>document.getElementById("loginPanel").classList.add("hidden");
+
+document.getElementById("loginBtn").onclick=async()=>{
+ const status=document.getElementById("loginStatus");
+ try{
+  await signInWithEmailAndPassword(auth,document.getElementById("email").value.trim(),document.getElementById("password").value);
+  status.textContent="Login successful.";
+ }catch(e){status.textContent="Login failed. Check email, password and Firebase settings.";}
+};
+document.getElementById("resetBtn").onclick=async()=>{
+ const email=document.getElementById("email").value.trim();
+ const status=document.getElementById("loginStatus");
+ if(!email){status.textContent="Enter your registered email first.";return;}
+ try{await sendPasswordResetEmail(auth,email);status.textContent="Reset email sent. Check your inbox.";}
+ catch(e){status.textContent="Could not send reset email. Check Firebase settings.";}
 };
 
-const ADMIN_EMAIL = "manmohan595120@gmail.com";
+onAuthStateChanged(auth,u=>{
+ user=u;
+ const ok=u&&u.email&&u.email.toLowerCase()===ADMIN_EMAIL.toLowerCase();
+ document.getElementById("adminPanel").classList.toggle("hidden",!ok);
+ document.getElementById("loginOpen").textContent=ok?"Admin Panel":"Admin Login";
+ renderAdmin();
+});
 
-const firebaseApp = initializeApp(firebaseConfig);
-const auth = getAuth(firebaseApp);
-const db = getFirestore(firebaseApp);
+document.getElementById("addBtn").onclick=async()=>{
+ const status=document.getElementById("adminStatus");
+ if(!user||user.email.toLowerCase()!==ADMIN_EMAIL.toLowerCase()){status.textContent="Please sign in as admin.";return;}
+ const name=document.getElementById("appName").value.trim();
+ const description=document.getElementById("appDescription").value.trim();
+ const category=document.getElementById("appCategory").value;
+ const url=document.getElementById("appUrl").value.trim();
+ if(!name||!description||!safeUrl(url)){status.textContent="Enter a name, description and valid HTTPS link.";return;}
+ try{
+  await addDoc(collection(db,"apps"),{name,description,category,url,createdAt:serverTimestamp()});
+  status.textContent="App added successfully.";
+  document.getElementById("appName").value="";
+  document.getElementById("appDescription").value="";
+  document.getElementById("appUrl").value="";
+  await load();
+ }catch(e){status.textContent="Could not save app. Check Firestore security rules.";}
+};
 
-
-/* Initial app catalogue.
-   These are official websites, not direct APK files. */
-
-const starterApps = [
-  {
-    name: "YouTube",
-    description: "Videos, music and entertainment",
-    category: "Entertainment",
-    icon: "▶️",
-    url: "https://www.youtube.com"
-  },
-  {
-    name: "WhatsApp",
-    description: "Messaging and calls",
-    category: "Social",
-    icon: "💬",
-    url: "https://www.whatsapp.com/download"
-  },
-  {
-    name: "Instagram",
-    description: "Photos, reels and messages",
-    category: "Social",
-    icon: "📸",
-    url: "https://www.instagram.com"
-  },
-  {
-    name: "Facebook",
-    description: "Connect with friends",
-    category: "Social",
-    icon: "👥",
-    url: "https://www.facebook.com"
-  },
-  {
-    name: "Telegram",
-    description: "Messaging and channels",
-    category: "Social",
-    icon: "✈️",
-    url: "https://telegram.org"
-  },
-  {
-    name: "Google Maps",
-    ",
-    category: "Finance",
-    icon: "💳",
-    url: "https://pay.google.com"
-  }
-];
-
-let apps = [];
-let selectedCategory = "All";
-let currentUser = null;
-let customApps = [];
-
-
-/* HTML-safe text */
-
-function safeText(value) {
-  return String(value ?? "").replace(/[&<>"']/g, char => ({
-    "&": "&amp;",
-    "<": "&lt;",
-    ">": "&gt;",
-    '"': "&quot;",
-    "'": "&#39;"
-  })[char]);
+function renderAdmin(){
+ const box=document.getElementById("adminApps");
+ if(!user||!user.email||user.email.toLowerCase()!==ADMIN_EMAIL.toLowerCase()){box.innerHTML="";return;}
+ box.innerHTML=custom.map(a=>`<div class="panel"><b>${esc(a.name)}</b><br><button class="danger" data-id="${esc(a.id)}">Delete</button></div>`).join("");
+ box.querySelectorAll("[data-id]").forEach(b=>b.onclick=async()=>{
+  if(!confirm("Delete this app?"))return;
+  try{await deleteDoc(doc(db,"apps",b.dataset.id));await load();}
+  catch(e){document.getElementById("adminStatus").textContent="Could not delete. Check Firestore rules.";}
+ });
 }
-
-
-/* Only allow normal HTTPS links */
-
-function validUrl(value) {
-  try {
-    const parsed = new URL(value);
-    return parsed.protocol === "https:";
-  } catch {
-    return false;
-  }
-}
-
-
-/* Load custom apps from Firestore */
-
-async function loadApps() {
-  try {
-    const snapshot = await getDocs(collection(db, "apps"));
-
-    customApps = snapshot.docs.map(item => ({
-      id: item.id,
-      ...item.data(),
-      custom: true
-    }));
-
-    apps = [...starterApps, ...customApps];
-
-  } catch (error) {
-    console.error(error);
-
-    apps = [...starterApps];
-
-    document.getElementById("adminStatus").textContent =
-      "Saved apps could not be loaded. Check Firestore permissions.";
-  }
-
-  renderApps();
-  renderAdminApps();
-}
-
-
-/* Display app cards */
-
-function renderApps() {
-  
+document.getElementById("logoutBtn").onclick=()=>signOut(auth);
+load();
 </script>
-
 </body>
 </html>
