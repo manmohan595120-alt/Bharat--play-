@@ -1,0 +1,135 @@
+<!DOCTYPE html>
+<html lang="hi">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Bharat Play - Indian App Store</title>
+<style>
+*{box-sizing:border-box}
+body{margin:0;font-family:Arial,sans-serif;background:#f4f7fb;color:#172033}
+header{background:#123c83;color:white;padding:20px 16px}
+header h1{margin:0;font-size:29px}
+header p{margin:8px 0 0}
+.container{max-width:1000px;margin:auto;padding:18px}
+.search{width:100%;padding:14px;border:1px solid #ccd4e0;border-radius:12px;font-size:16px}
+h2{margin-top:25px}
+.categories{display:flex;gap:9px;flex-wrap:wrap}
+button{border:0;border-radius:9px;padding:10px 14px;background:#e1eaff;color:#123c83;font-weight:bold}
+button:active{opacity:.7}
+.apps{display:grid;grid-template-columns:repeat(auto-fit,minmax(220px,1fr));gap:15px;margin-top:16px}
+.card{background:white;padding:17px;border-radius:15px;box-shadow:0 3px 12px #0000000b}
+.icon{font-size:38px}
+.card h3{margin:10px 0 6px}
+.card p{color:#5b6474;font-size:14px;line-height:1.5}
+.tag{font-size:12px;color:#187447}
+.download{display:inline-block;background:#176b45;color:white;padding:10px 14px;border-radius:8px;text-decoration:none;font-weight:bold}
+.notice{background:#fff3d6;padding:13px;border-radius:10px;font-size:13px;line-height:1.5}
+footer{text-align:center;padding:25px;color:#667085;font-size:13px}
+</style>
+</head>
+<body>
+<header>
+  <h1>🇮🇳 Bharat Play</h1>
+  <p>Discover apps. Explore games. Made for India.</p>
+</header>
+
+<main class="container">
+  <input id="search" class="search" type="search"
+  placeholder="🔍 Search apps and games..." oninput="showApps()">
+
+  <h2>Explore Categories</h2>
+  <div class="categories">
+    <button onclick="filterApps('All')">All</button>
+    <button onclick="filterApps('Education')">Education</button>
+    <button onclick="filterApps('Games')">Games</button>
+    <button onclick="filterApps('Tools')">Tools</button>
+    <button onclick="filterApps('Entertainment')">Entertainment</button>
+  </div>
+
+  <h2>Popular Apps</h2>
+  <div id="apps" class="apps"></div>
+
+  <h2>About Bharat Play</h2>
+  <p>Bharat Play is an independent project to help people discover useful apps and games.</p>
+
+  <div class="notice">
+    <strong>Important:</strong> यह अभी शुरुआती वेबसाइट डेमो है।
+    ऐप डाउनलोड बटन वास्तविक ऐप डाउनलोड नहीं करते।
+    किसी ऐप को प्रकाशित करने से पहले उसकी सुरक्षा, अनुमति और डाउनलोड लिंक की जाँच आवश्यक है।
+    Bharat Play किसी अन्य ऐप स्टोर से संबद्ध नहीं है।
+  </div>
+</main>
+
+<footer>© 2026 Bharat Play | Independent project</footer>
+
+<script>
+const appList = [
+ {name:"Study Helper",icon:"📚",category:"Education",
+  desc:"Study resources and learning tools."},
+ {name:"Math Practice",icon:"🧮",category:"Education",
+  desc:"Practice mathematics questions."},
+ {name:"Puzzle World",icon:"🧩",category:"Games",
+  desc:"A collection of brain puzzles."},
+ {name:"Quick Notes",icon:"📝",category:"Tools",
+  desc:"A simple way to organize your ideas."},
+ {name:"Weather Guide",icon:"🌤️",category:"Tools",
+  desc:"A sample card for a weather app."},
+ {name:"Music Library",icon:"🎵",category:"Entertainment",
+  desc:"Discover music and entertainment apps."}
+];
+
+let selectedCategory = "All";
+
+function filterApps(category){
+ selectedCategory = category;
+ showApps();
+}
+
+function showApps(){
+ const query = document.getElementById("search").value.toLowerCase();
+ const list = appList.filter(app =>
+  (selectedCategory === "All" || app.category === selectedCategory) &&
+  (app.name.toLowerCase().includes(query) ||
+   app.category.toLowerCase().includes(query) ||
+   app.desc.toLowerCase().includes(query))
+ );
+
+ const area = document.getElementById("apps");
+ area.innerHTML = "";
+
+ if(list.length === 0){
+  area.innerHTML = "<p>No apps found. Try another search.</p>";
+  return;
+ }
+
+ list.forEach(app => {
+  const card = document.createElement("article");
+  card.className = "card";
+
+  const icon = document.createElement("div");
+  icon.className = "icon";
+  icon.textContent = app.icon;
+
+  const title = document.createElement("h3");
+  title.textContent = app.name;
+
+  const tag = document.createElement("div");
+  tag.className = "tag";
+  tag.textContent = app.category;
+
+  const description = document.createElement("p");
+  description.textContent = app.desc;
+
+  const link = document.createElement("span");
+  link.className = "download";
+  link.textContent = "Coming Soon";
+
+  card.append(icon,title,tag,description,link);
+  area.appendChild(card);
+ });
+}
+
+showApps();
+</script>
+</body>
+</html>
