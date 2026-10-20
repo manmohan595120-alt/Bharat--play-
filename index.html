@@ -280,12 +280,10 @@ const firebaseConfig = {
       await signInWithEmailAndPassword(auth, email, password);
       setStatus("Login successful.");
     } catch (error) {
-      setStatus("Login failed. Check your details and Firebase settings.");
-    } finally {
-      $("loginBtn").disabled = false;
+  setStatus("Login failed: " + (error.code || error.message || "Unknown error"));
+} finally {
+  $("loginBtn").disabled = false;
     }
-  };
-
   window.logout = async function () {
     try {
       await signOut(auth);
