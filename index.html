@@ -7,37 +7,323 @@
 
 <style>
 * {
-  box-sizing: border-box;
+    box-sizing: border-box;
 }
 
 body {
-  margin: 0;
-  font-family: Arial, sans-serif;
-  background: #f4f7fb;
-  color: #172033;
+    margin: 0;
+    font-family: Arial, sans-serif;
+    background: #f3f6fb;
+    color: #202124;
 }
 
 header {
-  background: linear-gradient(120deg, #ff9933, #ffffff, #138808);
-  padding: 25px 16px;
-  text-align: center;
+    background: linear-gradient(120deg, #ff9933, #ffffff, #138808);
+    padding: 22px 15px;
+    text-align: center;
 }
 
-header h1 {
-  margin: 0;
-  color: #123c83;
-  font-size: 32px;
+.logo {
+    font-size: 32px;
+    font-weight: bold;
+    color: #172554;
 }
 
 header p {
-  margin-bottom: 0;
+    margin-bottom: 0;
+    font-weight: bold;
+}
+
+nav {
+    display: flex;
+    justify-content: center;
+    flex-wrap: wrap;
+    gap: 8px;
+    background: white;
+    padding: 12px;
+    box-shadow: 0 2px 5px #ddd;
+}
+
+nav a {
+    text-decoration: none;
+    color: #174ea6;
+    font-weight: bold;
+    padding: 8px;
 }
 
 .container {
-  max-width: 1000px;
-  margin: auto;
-  padding: 18px;
+    max-width: 1100px;
+    margin: auto;
+    padding: 18px;
 }
 
-.search {
-  width: 100
+.search-box {
+    width: 100%;
+    padding: 15px;
+    border: 1px solid #ccc;
+    border-radius: 25px;
+    font-size: 16px;
+    margin: 12px 0 22px;
+}
+
+h2 {
+    color: #173b70;
+}
+
+.categories {
+    display: flex;
+    gap: 10px;
+    flex-wrap: wrap;
+    margin-bottom: 25px;
+}
+
+.categories button {
+    border: none;
+    background: #e3ecff;
+    color: #174ea6;
+    padding: 11px 15px;
+    border-radius: 20px;
+    font-size: 14px;
+    cursor: pointer;
+}
+
+.categories button:hover {
+    background: #174ea6;
+    color: white;
+}
+
+.apps {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(145px, 1fr));
+    gap: 15px;
+}
+
+.app-card {
+    background: white;
+    padding: 16px 10px;
+    border-radius: 15px;
+    text-align: center;
+    box-shadow: 0 2px 8px #00000012;
+}
+
+.app-icon {
+    width: 65px;
+    height: 65px;
+    border-radius: 18px;
+    margin: 0 auto 10px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-size: 30px;
+    background: #e8efff;
+}
+
+.app-card h3 {
+    font-size: 16px;
+    margin: 8px 0;
+}
+
+.app-card p {
+    font-size: 13px;
+    color: #666;
+}
+
+.download-btn {
+    display: inline-block;
+    padding: 9px 18px;
+    border-radius: 20px;
+    background: #16833a;
+    color: white;
+    text-decoration: none;
+    font-size: 13px;
+    font-weight: bold;
+}
+
+.notice {
+    background: #fff4dc;
+    border-left: 4px solid #ff9933;
+    padding: 14px;
+    border-radius: 8px;
+    margin: 20px 0;
+    font-size: 14px;
+}
+
+footer {
+    text-align: center;
+    background: #173b70;
+    color: white;
+    padding: 22px 10px;
+    margin-top: 30px;
+    font-size: 13px;
+}
+
+.empty {
+    display: none;
+    padding: 20px;
+    text-align: center;
+}
+</style>
+</head>
+
+<body>
+
+<header>
+    <div class="logo">🇮🇳 Bharat Play</div>
+    <p>Discover Apps Made for India</p>
+</header>
+
+<nav>
+    <a href="#home">Home</a>
+    <a href="#apps">Apps</a>
+    <a href="#games">Games</a>
+    <a href="#about">About</a>
+</nav>
+
+<main class="container" id="home">
+
+    <h2>Welcome to Bharat Play</h2>
+    <p>Explore apps and games in one place.</p>
+
+    <input
+        type="search"
+        id="search"
+        class="search-box"
+        placeholder="🔍 Search apps and games..."
+        oninput="filterApps()"
+    >
+
+    <h2>Categories</h2>
+
+    <div class="categories">
+        <button onclick="showCategory('all')">All</button>
+        <button onclick="showCategory('education')">📚 Education</button>
+        <button onclick="showCategory('games')">🎮 Games</button>
+        <button onclick="showCategory('tools')">🛠️ Tools</button>
+        <button onclick="showCategory('entertainment')">🎬 Entertainment</button>
+    </div>
+
+    <h2 id="apps">Popular Apps</h2>
+
+    <div class="apps" id="appList">
+
+        <div class="app-card" data-category="education">
+            <div class="app-icon">📚</div>
+            <h3>Study India</h3>
+            <p>Education</p>
+            <a class="download-btn"
+               href="https://diksha.gov.in/"
+               target="_blank" rel="noopener">Visit</a>
+        </div>
+
+        <div class="app-card" data-category="tools">
+            <div class="app-icon">🧮</div>
+            <h3>Calculator</h3>
+            <p>Useful Tools</p>
+            <a class="download-btn"
+               href="https://www.google.com/search?q=online+calculator"
+               target="_blank" rel="noopener">Open</a>
+        </div>
+
+        <div class="app-card" data-category="education">
+            <div class="app-icon">🔬</div>
+            <h3>Science Hub</h3>
+            <p>Science Learning</p>
+            <a class="download-btn"
+               href="https://www.ncert.nic.in/"
+               target="_blank" rel="noopener">Visit</a>
+        </div>
+
+        <div class="app-card" data-category="games">
+            <div class="app-icon">🎮</div>
+            <h3>Games Zone</h3>
+            <p>Games</p>
+            <a class="download-btn"
+               href="https://play.google.com/store/games"
+               target="_blank" rel="noopener">Explore</a>
+        </div>
+
+        <div class="app-card" data-category="entertainment">
+            <div class="app-icon">🎬</div>
+            <h3>Entertainment</h3>
+            <p>Videos and Media</p>
+            <a class="download-btn"
+               href="https://www.youtube.com/"
+               target="_blank" rel="noopener">Open</a>
+        </div>
+
+        <div class="app-card" data-category="tools">
+            <div class="app-icon">🌦️</div>
+            <h3>Weather</h3>
+            <p>Weather Information</p>
+            <a class="download-btn"
+               href="https://mausam.imd.gov.in/"
+               target="_blank" rel="noopener">Check</a>
+        </div>
+
+    </div>
+
+    <p class="empty" id="emptyMessage">No matching apps found.</p>
+
+    <div class="notice">
+        <strong>Coming Soon!</strong><br>
+        Bharat Play is a developing project. Developer registration,
+        app uploads, verified downloads and secure administrator features
+        will require a backend system.
+    </div>
+
+    <section id="about">
+        <h2>About Bharat Play</h2>
+        <p>
+            Bharat Play is an independent project designed to help users
+            discover useful apps, educational resources and games.
+        </p>
+        <p><strong>Project Administrator:</strong> Bharat Play Team</p>
+    </section>
+
+</main>
+
+<footer>
+    <p>🇮🇳 Bharat Play</p>
+    <p>Made with care in India</p>
+    <p>© 2026 Bharat Play. All rights reserved.</p>
+</footer>
+
+<script>
+let selectedCategory = "all";
+
+function filterApps() {
+    const searchText = document.getElementById("search")
+        .value.toLowerCase();
+
+    const cards = document.querySelectorAll(".app-card");
+    let visibleCount = 0;
+
+    cards.forEach(function(card) {
+        const text = card.innerText.toLowerCase();
+        const category = card.dataset.category;
+
+        const matchesSearch = text.includes(searchText);
+        const matchesCategory =
+            selectedCategory === "all" ||
+            category === selectedCategory;
+
+        if (matchesSearch && matchesCategory) {
+            card.style.display = "";
+            visibleCount++;
+        } else {
+            card.style.display = "none";
+        }
+    });
+
+    document.getElementById("emptyMessage").style.display =
+        visibleCount === 0 ? "block" : "none";
+}
+
+function showCategory(category) {
+    selectedCategory = category;
+    filterApps();
+}
+</script>
+
+</body>
+</html>
