@@ -1,248 +1,252 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-  <meta charset="UTF-8">
-  <meta name="viewport" content="width=device-width, initial-scale=1">
-  <title>Bharat Play</title>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
 
-  <style>
-    * {
-      box-sizing: border-box;
-    }
+<title>Bharat Play</title>
 
-    body {
-      margin: 0;
-      font-family: Arial, sans-serif;
-      background: #f3f6fb;
-      color: #202124;
-    }
+<style>
+* {
+  box-sizing: border-box;
+}
 
-    header {
-      background: #087f5b;
-      color: white;
-      padding: 20px 15px;
-      text-align: center;
-    }
+body {
+  margin: 0;
+  font-family: Arial, sans-serif;
+  background: #f4f6f9;
+  color: #222;
+}
 
-    header h1 {
-      margin: 0 0 8px;
-      font-size: 30px;
-    }
+header {
+  background: #087443;
+  color: white;
+  padding: 18px;
+  text-align: center;
+}
 
-    header p {
-      margin: 0;
-    }
+header h1 {
+  margin: 0;
+  font-size: 28px;
+}
 
-    main {
-      max-width: 850px;
-      margin: 20px auto;
-      padding: 0 14px;
-    }
+header p {
+  margin-bottom: 0;
+}
 
-    .box {
-      background: white;
-      padding: 18px;
-      margin-bottom: 18px;
-      border-radius: 12px;
-      box-shadow: 0 2px 8px #00000012;
-    }
+.container {
+  max-width: 900px;
+  margin: auto;
+  padding: 16px;
+}
 
-    input, textarea, button {
-      width: 100%;
-      padding: 12px;
-      margin: 7px 0;
-      font-size: 16px;
-      border-radius: 7px;
-    }
+.box {
+  background: white;
+  padding: 18px;
+  border-radius: 12px;
+  margin: 16px 0;
+  box-shadow: 0 2px 8px #00000012;
+}
 
-    input, textarea {
-      border: 1px solid #ccc;
-    }
+input, textarea, button {
+  width: 100%;
+  padding: 12px;
+  margin: 7px 0;
+  border: 1px solid #ccc;
+  border-radius: 7px;
+  font-size: 16px;
+}
 
-    button {
-      border: none;
-      background: #087f5b;
-      color: white;
-      cursor: pointer;
-    }
+button {
+  background: #087443;
+  color: white;
+  border: none;
+  cursor: pointer;
+}
 
-    button:disabled {
-      opacity: 0.6;
-    }
+button:disabled {
+  opacity: 0.6;
+}
 
-    .secondary {
-      background: #475569;
-    }
+.secondary {
+  background: #555;
+}
 
-    .danger {
-      background: #c62828;
-    }
+.delete {
+  background: #c62828;
+}
 
-    .card {
-      border: 1px solid #e0e0e0;
-      padding: 15px;
-      border-radius: 10px;
-      margin-top: 12px;
-      overflow-wrap: anywhere;
-    }
+.app {
+  border: 1px solid #ddd;
+  padding: 14px;
+  border-radius: 10px;
+  margin: 12px 0;
+  background: white;
+}
 
-    .card h3 {
-      margin-top: 0;
-    }
+.app h3 {
+  margin-top: 0;
+}
 
-    .hidden {
-      display: none;
-    }
+.app a {
+  color: #087443;
+  overflow-wrap: anywhere;
+}
 
-    #status, #appStatus {
-      overflow-wrap: anywhere;
-      font-size: 14px;
-    }
+.status {
+  white-space: pre-wrap;
+  overflow-wrap: anywhere;
+  font-size: 14px;
+}
 
-    a {
-      color: #087f5b;
-    }
+.hidden {
+  display: none;
+}
 
-    footer {
-      text-align: center;
-      padding: 20px;
-      color: #666;
-    }
-  </style>
+footer {
+  text-align: center;
+  padding: 20px;
+  color: #666;
+}
+</style>
 </head>
 
 <body>
 
 <header>
   <h1>🇮🇳 Bharat Play</h1>
-  <p>Discover apps in one place</p>
+  <p>Discover Apps Made for India</p>
 </header>
 
-<main>
+<div class="container">
 
-  <section class="box">
-    <h2>Search Apps</h2>
+  <div class="box">
+    <h2>🔍 Search Apps</h2>
+
     <input
-      id="search"
       type="search"
+      id="searchInput"
       placeholder="Search apps..."
-      oninput="showApps()"
     >
-    <p id="appStatus">Loading apps...</p>
-    <div id="appList"></div>
-  </section>
 
-  <section class="box">
-    <h2>Admin Login</h2>
+    <p id="appStatus" class="status">
+      Loading apps...
+    </p>
+
+    <div id="appList"></div>
+  </div>
+
+  <div class="box" id="loginBox">
+    <h2>🔐 Admin Login</h2>
 
     <form id="loginForm">
       <input
-        id="email"
         type="email"
-        placeholder="Admin email"
+        id="email"
+        placeholder="Admin Email"
         autocomplete="username"
         required
       >
 
       <input
-        id="password"
         type="password"
+        id="password"
         placeholder="Password"
         autocomplete="current-password"
         required
       >
 
-      <button id="loginBtn" type="submit">Login</button>
+      <button type="submit" id="loginBtn">
+        Login
+      </button>
     </form>
 
-    <button
-      id="logoutBtn"
-      class="secondary hidden"
-      type="button"
-    >Logout</button>
+    <button type="button"
+      id="resetBtn"
+      class="secondary">
+      Reset Password
+    </button>
 
-    <p id="status" role="status" aria-live="polite">
-      Please log in to manage apps.
-    </p>
-  </section>
+    <p id="status" class="status"></p>
+  </div>
 
-  <section id="admin" class="box hidden">
-    <h2>Admin Panel</h2>
-    <p id="adminEmail"></p>
+  <div class="box hidden" id="adminPanel">
+    <h2>⚙️ Admin Panel</h2>
+
+    <p>Welcome, Admin!</p>
 
     <h3>Add New App</h3>
 
-    <form id="appForm">
-      <input
-        id="appName"
-        placeholder="App name"
-        required
-      >
+    <form id="addAppForm">
 
       <input
-        id="appCategory"
-        placeholder="Category"
+        type="text"
+        id="appName"
+        placeholder="App Name"
         required
       >
 
       <textarea
         id="appDescription"
-        placeholder="App description"
+        placeholder="App Description"
         required
       ></textarea>
 
       <input
-        id="appUrl"
         type="url"
-        placeholder="Official website URL (https://...)"
+        id="appUrl"
+        placeholder="App Website or Download URL (https://...)"
         required
       >
 
-      <button id="addBtn" type="submit">Add App</button>
+      <button type="submit" id="addBtn">
+        Add App
+      </button>
+
     </form>
 
-    <p id="adminStatus"></p>
-  </section>
+    <button id="logoutBtn" class="secondary">
+      Logout
+    </button>
 
-</main>
+    <p id="adminStatus" class="status"></p>
+  </div>
+
+</div>
 
 <footer>
-  Bharat Play — Made in India 🇮🇳
+  <p>© 2026 Bharat Play | Made in India 🇮🇳</p>
 </footer>
 
 <script type="module">
-  import {
-    initializeApp
-  } from "https://www.gstatic.com/firebasejs/10.12.2/firebase-app.js";
 
-  import {
-    getAuth,
-    signInWithEmailAndPassword,
-    signOut,
-    onAuthStateChanged
-  } from "https://www.gstatic.com/firebasejs/10.12.2/firebase-auth.js";
+import {
+  initializeApp
+} from "https://www.gstatic.com/firebasejs/10.12.2/firebase-app.js";
 
-  import {
-    getFirestore,
-    collection,
-    getDocs,
-    addDoc,
-    deleteDoc,
-    doc,
-    query,
-    orderBy,
-    serverTimestamp
-  } from "https://www.gstatic.com/firebasejs/10.12.2/firebase-firestore.js";
-  // Firebase configuration
+import {
+  getAuth,
+  signInWithEmailAndPassword,
+  signOut,
+  onAuthStateChanged,
+  sendPasswordResetEmail
+} from "https://www.gstatic.com/firebasejs/10.12.2/firebase-auth.js";
+
+import {
+  getFirestore,
+  collection,
+  getDocs,
+  addDoc,
+  deleteDoc,
+  doc,
+  serverTimestamp
+} from "https://www.gstatic.com/firebasejs/10.12.2/firebase-firestore.js";
+
+
+// Firebase Configuration
+// Keep your actual Firebase API key here.
+
 const firebaseConfig = {
-  apiKey: "YOUR_FIREBASE_API_KEY",
-  authDomain: "bharat--play.firebaseapp.com",
-  projectId: "bharat--play",
-  storageBucket: "bharat--play.firebasestorage.app",
-  messagingSenderId: "1052808095459",
-  appId: "1:1052808095459:web:86b4125fda3bbfaee707d6",
-  measurementId: "G-S2SF10GYD8"
-};
   apiKey: "AIzaSyBwvt-G96rkGNeUXQQvcJjPPvWhSIHc8Hc",
   authDomain: "bharat--play.firebaseapp.com",
   projectId: "bharat--play",
@@ -251,316 +255,346 @@ const firebaseConfig = {
   appId: "1:1052808095459:web:86b4125fda3bbfaee707d6",
   measurementId: "G-S2SF10GYD8"
 };
-    authDomain: "bharat--play.firebaseapp.com",
-    projectId: "bharat--play",
-    appId: "1:1052808095459:web:86b4125fda3bbfaee707d6"
-  };
 
-  // Only this email is recognized by this page as the admin.
-  const ADMIN_EMAIL = "manmohan595120@gmail.com";
 
-  const $ = id => document.getElementById(id);
+// Admin email
+const ADMIN_EMAIL = "manmohan595120@gmail.com";
 
-  let auth;
-  let db;
-  let isAdmin = false;
-  let allApps = [];
+const $ = id => document.getElementById(id);
 
-  function setStatus(message) {
-    $("status").textContent = message;
+let auth;
+let db;
+let isAdmin = false;
+let allApps = [];
+
+function setStatus(message) {
+  $("status").textContent = message;
+}
+
+function validHttpUrl(value) {
+  try {
+    const url = new URL(value);
+
+    if (url.protocol === "https:" ||
+        url.protocol === "http:") {
+      return url.href;
+    }
+  } catch (error) {}
+
+  return null;
+}
+
+
+// Show apps on the website
+function showApps() {
+  const list = $("appList");
+  list.replaceChildren();
+
+  const search = $("searchInput").value
+    .trim()
+    .toLowerCase();
+
+  const filtered = allApps.filter(app => {
+    const name = String(app.name || "").toLowerCase();
+    const description =
+      String(app.description || "").toLowerCase();
+
+    return name.includes(search) ||
+           description.includes(search);
+  });
+
+  if (filtered.length === 0) {
+    list.textContent = "No apps found.";
+    return;
   }
 
-  function safeText(value) {
-    return String(value ?? "");
-  }
+  filtered.forEach(app => {
+    const card = document.createElement("div");
+    card.className = "app";
 
-  function makeElement(tag, text = "", className = "") {
-    const element = document.createElement(tag);
-    element.textContent = text;
+    const title = document.createElement("h3");
+    title.textContent = app.name || "Unnamed App";
 
-    if (className) {
-      element.className = className;
+    const description = document.createElement("p");
+    description.textContent = app.description || "";
+
+    card.append(title, description);
+
+    const safeUrl = validHttpUrl(app.url || "");
+
+    if (safeUrl) {
+      const link = document.createElement("a");
+
+      link.href = safeUrl;
+      link.textContent = "Open / Download App";
+      link.target = "_blank";
+      link.rel = "noopener noreferrer";
+
+      card.appendChild(link);
     }
 
-    return element;
-  }
+    if (isAdmin) {
+      const deleteButton =
+        document.createElement("button");
 
-  function validHttpUrl(value) {
-    try {
-      const url = new URL(value);
+      deleteButton.className = "delete";
+      deleteButton.textContent = "Delete App";
 
-      if (url.protocol === "https:" || url.protocol === "http:") {
-        return url.href;
-      }
-    } catch (error) {
-      // Invalid URL
+      deleteButton.addEventListener("click", async () => {
+        const confirmed = confirm(
+          "Are you sure you want to delete this app?"
+        );
+
+        if (!confirmed) return;
+
+        try {
+          await deleteDoc(doc(db, "apps", app.id));
+
+          $("adminStatus").textContent =
+            "App deleted successfully.";
+
+          await loadApps();
+
+        } catch (error) {
+          $("adminStatus").textContent =
+            "Delete error: " + error.message;
+        }
+      });
+
+      card.appendChild(deleteButton);
     }
 
-    return null;
-  }
+    list.appendChild(card);
+  });
+}
 
-  async function loadApps() {
-    $("appStatus").textContent = "Loading apps...";
-    $("appList").replaceChildren();
 
-    try {
-      const result = await getDocs(
-        query(
-          collection(db, "apps"),
-          orderBy("createdAt", "desc")
-        )
-      );
+// Load apps from Firestore
+async function loadApps() {
+  $("appStatus").textContent = "Loading apps...";
 
-      allApps = result.docs.map(item => ({
-        id: item.id,
-        ...item.data()
-      }));
-
-      showApps();
-
-    } catch (error) {
-      $("appStatus").textContent =
-        "Could not load apps. Check Firestore database and security rules.";
-
-      console.error("Load apps error:", error);
-    }
-  }
-
-  window.showApps = function () {
-    const term = $("search").value.trim().toLowerCase();
-    const list = $("appList");
-
-    list.replaceChildren();
-
-    const filtered = allApps.filter(item =>
-      safeText(item.name).toLowerCase().includes(term) ||
-      safeText(item.category).toLowerCase().includes(term) ||
-      safeText(item.description).toLowerCase().includes(term)
+  try {
+    const snapshot = await getDocs(
+      collection(db, "apps")
     );
 
-    $("appStatus").textContent =
-      filtered.length + " app(s) found.";
+    allApps = snapshot.docs.map(item => ({
+      id: item.id,
+      ...item.data()
+    }));
 
-    if (!filtered.length) {
-      list.appendChild(
-        makeElement("p", "No apps found yet.")
-      );
-      return;
-    }
+    allApps.sort((a, b) => {
+      const timeA = a.createdAt?.seconds || 0;
+      const timeB = b.createdAt?.seconds || 0;
 
-    filtered.forEach(item => {
-      const card = makeElement("div", "", "card");
-
-      card.appendChild(
-        makeElement("h3", safeText(item.name))
-      );
-
-      card.appendChild(
-        makeElement(
-          "p",
-          "Category: " + safeText(item.category)
-        )
-      );
-
-      card.appendChild(
-        makeElement("p", safeText(item.description))
-      );
-
-      const validUrl = validHttpUrl(item.url);
-
-      if (validUrl) {
-        const link = makeElement("a", "Visit Official Website");
-
-        link.href = validUrl;
-        link.target = "_blank";
-        link.rel = "noopener noreferrer";
-
-        card.appendChild(link);
-      }
-
-      if (isAdmin) {
-        const deleteButton = makeElement(
-          "button",
-          "Delete App",
-          "danger"
-        );
-
-        deleteButton.addEventListener("click", async () => {
-          if (!isAdmin || !auth.currentUser) {
-            return;
-          }
-
-          if (!confirm("Are you sure you want to delete this app?")) {
-            return;
-          }
-
-          try {
-            await deleteDoc(doc(db, "apps", item.id));
-            await loadApps();
-
-          } catch (error) {
-            alert(
-              "Delete failed. Check Firestore security rules."
-            );
-
-            console.error("Delete app error:", error);
-          }
-        });
-
-        card.appendChild(deleteButton);
-      }
-
-      list.appendChild(card);
+      return timeB - timeA;
     });
-  };
 
-  $("loginForm").addEventListener("submit", async event => {
-    event.preventDefault();
+    showApps();
 
-    const email = $("email").value.trim();
-    const password = $("password").value;
+    $("appStatus").textContent =
+      allApps.length + " app(s) available.";
 
-    if (!email || !password) {
-      setStatus("Enter your email and password.");
-      return;
-    }
+  } catch (error) {
+    $("appStatus").textContent =
+      "Could not load apps. Check Firestore rules. " +
+      error.code;
 
-    $("loginBtn").disabled = true;
-    setStatus("Signing in...");
+    console.error("Load apps error:", error);
+  }
+}
 
-    try {
-      await signInWithEmailAndPassword(auth, email, password);
-      setStatus("Login successful.");
 
-    } catch (error) {
-      setStatus(
-        "Login failed: " +
-        (error.code || error.message || "Unknown error")
-      );
+// Login
+$("loginForm").addEventListener("submit", async event => {
+  event.preventDefault();
 
-      console.error("Login error:", error);
+  const email = $("email").value.trim();
+  const password = $("password").value;
 
-    } finally {
-      $("loginBtn").disabled = false;
-    }
-  });
-
-  $("logoutBtn").addEventListener("click", async () => {
-    try {
-      await signOut(auth);
-
-    } catch (error) {
-      setStatus("Logout failed: " + (error.code || error.message));
-    }
-  });
-
-  $("appForm").addEventListener("submit", async event => {
-    event.preventDefault();
-
-    if (!isAdmin || !auth.currentUser) {
-      $("adminStatus").textContent =
-        "Please sign in with the admin account.";
-      return;
-    }
-
-    const name = $("appName").value.trim();
-    const category = $("appCategory").value.trim();
-    const description = $("appDescription").value.trim();
-    const url = validHttpUrl($("appUrl").value.trim());
-
-    if (!name || !category || !description || !url) {
-      $("adminStatus").textContent =
-        "Enter all details and a valid HTTP/HTTPS URL.";
-      return;
-    }
-
-    $("addBtn").disabled = true;
-    $("adminStatus").textContent = "Adding app...";
-
-    try {
-      await addDoc(collection(db, "apps"), {
-        name,
-        category,
-        description,
-        url,
-        createdAt: serverTimestamp()
-      });
-
-      $("appForm").reset();
-      $("adminStatus").textContent = "App added successfully.";
-
-      await loadApps();
-
-    } catch (error) {
-      $("adminStatus").textContent =
-        "Could not add app: " +
-        (error.code || error.message || "Unknown error");
-
-      console.error("Add app error:", error);
-
-    } finally {
-      $("addBtn").disabled = false;
-    }
-  });
-
-  async function startApp() {
-    try {
-      if (
-        !firebaseConfig.apiKey ||
-        firebaseConfig.apiKey === "PASTE_YOUR_ACTUAL_API_KEY_HERE"
-      ) {
-        throw new Error("Add your actual Firebase API key in the code.");
-      }
-
-      const app = initializeApp(firebaseConfig);
-
-      auth = getAuth(app);
-      db = getFirestore(app);
-
-      onAuthStateChanged(auth, async user => {
-        isAdmin = Boolean(
-          user &&
-          user.email &&
-          user.email.toLowerCase() === ADMIN_EMAIL.toLowerCase()
-        );
-
-        $("admin").classList.toggle("hidden", !isAdmin);
-        $("logoutBtn").classList.toggle("hidden", !user);
-
-        if (user) {
-          $("adminEmail").textContent =
-            "Signed in as: " + safeText(user.email);
-
-          if (isAdmin) {
-            setStatus("Admin account signed in.");
-          } else {
-            setStatus(
-              "Signed in, but this account is not the admin."
-            );
-          }
-
-        } else {
-          $("adminEmail").textContent = "";
-          setStatus("Please log in to manage apps.");
-        }
-
-        await loadApps();
-      });
-
-    } catch (error) {
-      setStatus(
-        "Setup error: " +
-        (error.message || error.code || "Unknown error")
-      );
-
-      $("appStatus").textContent =
-        "Firebase setup needs attention.";
-
-      console.error("Setup error:", error);
-    }
+  if (!email || !password) {
+    setStatus("Enter email and password.");
+    return;
   }
 
-  startApp();
+  $("loginBtn").disabled = true;
+  setStatus("Signing in...");
+
+  try {
+    const result = await signInWithEmailAndPassword(
+      auth,
+      email,
+      password
+    );
+
+    if (
+      result.user.email.toLowerCase() !==
+      ADMIN_EMAIL.toLowerCase()
+    ) {
+      await signOut(auth);
+
+      setStatus("This email is not the admin email.");
+      return;
+    }
+
+    setStatus("Login successful.");
+
+  } catch (error) {
+    setStatus(
+      "Login failed: " +
+      (error.code || error.message)
+    );
+
+    console.error("Login error:", error);
+
+  } finally {
+    $("loginBtn").disabled = false;
+  }
+});
+
+
+// Reset password
+$("resetBtn").addEventListener("click", async () => {
+  const email = $("email").value.trim();
+
+  if (!email) {
+    setStatus("Enter your email first.");
+    return;
+  }
+
+  try {
+    await sendPasswordResetEmail(auth, email);
+
+    setStatus(
+      "If the account is eligible, a password reset email has been sent. Check Spam too."
+    );
+
+  } catch (error) {
+    setStatus(
+      "Reset error: " +
+      (error.code || error.message)
+    );
+
+    console.error("Password reset error:", error);
+  }
+});
+
+
+// Add app
+$("addAppForm").addEventListener("submit", async event => {
+  event.preventDefault();
+
+  if (!isAdmin) {
+    $("adminStatus").textContent =
+      "Please log in as admin first.";
+    return;
+  }
+
+  const name = $("appName").value.trim();
+  const description =
+    $("appDescription").value.trim();
+
+  const url = validHttpUrl(
+    $("appUrl").value.trim()
+  );
+
+  if (!url) {
+    $("adminStatus").textContent =
+      "Enter a valid http or https URL.";
+    return;
+  }
+
+  $("addBtn").disabled = true;
+
+  try {
+    await addDoc(collection(db, "apps"), {
+      name,
+      description,
+      url,
+      createdAt: serverTimestamp()
+    });
+
+    $("addAppForm").reset();
+
+    $("adminStatus").textContent =
+      "App added successfully!";
+
+    await loadApps();
+
+  } catch (error) {
+    $("adminStatus").textContent =
+      "Add error: " +
+      (error.code || error.message);
+
+    console.error("Add app error:", error);
+
+  } finally {
+    $("addBtn").disabled = false;
+  }
+});
+
+
+// Search
+$("searchInput").addEventListener("input", showApps);
+
+
+// Logout
+$("logoutBtn").addEventListener("click", async () => {
+  try {
+    await signOut(auth);
+    setStatus("Logged out successfully.");
+  } catch (error) {
+    $("adminStatus").textContent = error.message;
+  }
+});
+
+
+// Initialize Firebase
+try {
+  const app = initializeApp(firebaseConfig);
+
+  auth = getAuth(app);
+  db = getFirestore(app);
+
+  onAuthStateChanged(auth, async user => {
+    isAdmin = Boolean(
+      user &&
+      user.email &&
+      user.email.toLowerCase() ===
+      ADMIN_EMAIL.toLowerCase()
+    );
+
+    $("adminPanel").classList.toggle(
+      "hidden",
+      !isAdmin
+    );
+
+    $("loginBox").classList.toggle(
+      "hidden",
+      isAdmin
+    );
+
+    if (isAdmin) {
+      $("status").textContent =
+        "Admin login successful.";
+    }
+
+    showApps();
+
+    await loadApps();
+  });
+
+} catch (error) {
+  setStatus(
+    "Firebase setup error: " + error.message
+  );
+
+  $("appStatus").textContent =
+    "Firebase setup error.";
+
+  console.error("Firebase setup error:", error);
+}
+
 </script>
 
 </body>
