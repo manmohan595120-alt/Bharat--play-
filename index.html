@@ -629,6 +629,27 @@ behavior: "smooth",
 block: "start"
 });
 });
+
+renderCategories();
+renderApps();
+loadCustomApps();
+</script>
+
+</body>
+</html>
+if (isAdmin) {
+$("loginArea").classList.add("hidden");
+$("adminTools").classList.remove("hidden");
+} else {
+$("loginArea").classList.remove("hidden");
+$("adminTools").classList.add("hidden");
+}
+
+$("adminArea").scrollIntoView({
+behavior: "smooth",
+block: "start"
+});
+});
 renderCategories();
 renderApps();
 loadCustomApps();
