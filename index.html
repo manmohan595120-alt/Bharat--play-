@@ -115,7 +115,18 @@ const firebaseConfig={
  appId:"1:1052808095459:web:86b4125fda3bbfaee707d6",
  measurementId:"G-S2SF10GYD8"
 };
-const ADMIN_EMAIL="manmohan595120@gmail.com";
+const ADMIN_EMAIL="manmohan595120@gmail.com"
+ auth.onAuthStateChanged(user => {
+  if (user &&
+      user.email &&
+      user.email.toLowerCase() === ADMIN_EMAIL.toLowerCase()) {
+    document.getElementById("admin").classList.remove("hidden");
+    document.getElementById("status").textContent =
+      "Admin login successful!";
+  } else {
+    document.getElementById("admin").classList.add("hidden");
+  }
+});
 const auth=getAuth(initializeApp(firebaseConfig));
 const db=getFirestore();
 let user=null,custom=[],category="All";
