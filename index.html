@@ -273,16 +273,5 @@ document.getElementById("addBtn").onclick=async()=>{
 
 function renderAdmin(){
  const box=document.getElementById("adminApps");
- if(!user||!user.email||user.email.toLowerCase()!==ADMIN_EMAIL.toLowerCase()){box.innerHTML="";return;}
- box.innerHTML=custom.map(a=>`<div class="panel"><b>${esc(a.name)}</b><br><button class="danger" data-id="${esc(a.id)}">Delete</button></div>`).join("");
- box.querySelectorAll("[data-id]").forEach(b=>b.onclick=async()=>{
-  if(!confirm("Delete this app?"))return;
-  try{await deleteDoc(doc(db,"apps",b.dataset.id));await load();}
-  catch(e){document.getElementById("adminStatus").textContent="Could not delete. Check Firestore rules.";}
- });
-}
-document.getElementById("logoutBtn").onclick=()=>signOut(auth);
-load();
-</script>
-</body>
-</html>
+ if(!user||!user.email||user.email.toLow
+    
