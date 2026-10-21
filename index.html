@@ -524,7 +524,6 @@ $("loginBtn").addEventListener("click", async () => {
     $("loginBtn").disabled = false;
   }
 });
-
 onAuthStateChanged(auth, user => {
   isAdmin = Boolean(user && user.email &&
     user.email.toLowerCase() === ADMIN_EMAIL);
@@ -536,7 +535,8 @@ onAuthStateChanged(auth, user => {
     $("signedInAs").textContent = "Logged in: " + user.email;
     setMessage("Admin Login सफल हुआ।");
   } else if (user) {
-    signOut(auth).catch(console.error);
+    signOut(auth).catch(console.error) 
+    $("adminArea").classList.add("hidden");
     setMessage("इस अकाउंट को Admin अनुमति नहीं है।");
   }
 
