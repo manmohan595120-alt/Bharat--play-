@@ -1,1 +1,312 @@
-ghjfszxc
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<meta name="theme-color" content="#087f5b">
+<meta name="description" content="Discover apps, games and useful tools with Bharat Play.">
+<title>Bharat Play — Apps & Games</title>
+<style>
+:root{--green:#087f5b;--dark:#07523d;--pale:#e9f7ef;--text:#17231d;--muted:#64736a;--line:#dce8e0;--white:#fff}
+*{box-sizing:border-box}body{margin:0;font-family:Arial,Helvetica,sans-serif;background:#f5faf6;color:var(--text)}
+header{background:linear-gradient(135deg,var(--dark),#0b986b);color:white;padding:22px 16px 18px}
+.top{max-width:1100px;margin:auto;display:flex;align-items:center;justify-content:space-between;gap:12px;flex-wrap:wrap}
+.brand{display:flex;align-items:center;gap:10px}.logo{width:45px;height:45px;border-radius:13px;background:white;color:var(--green);display:grid;place-items:center;font-weight:900;font-size:20px}
+h1{font-size:24px;margin:0 0 4px}.tag{font-size:13px;opacity:.9}
+button,a{touch-action:manipulation}.header-btn{border:1px solid #ffffff80;background:#ffffff16;color:#fff;border-radius:10px;padding:10px 13px;font-weight:700;cursor:pointer}
+main{max-width:1100px;margin:0 auto;padding:18px 14px 35px}.hero{padding:10px 0 17px}.hero h2{margin:0 0 7px;font-size:22px}.hero p{margin:0;color:var(--muted);line-height:1.5}
+.searchrow{display:flex;gap:9px;margin:15px 0 12px}.searchrow input{flex:1;min-width:0;padding:13px;border:1px solid var(--line);border-radius:12px;font-size:16px;background:white}
+.filters{display:flex;gap:8px;overflow:auto;padding:2px 0 12px}.chip{white-space:nowrap;border:1px solid var(--line);background:white;color:#355144;padding:9px 13px;border-radius:999px;cursor:pointer}.chip.active{background:var(--green);color:white;border-color:var(--green)}
+.count{font-size:13px;color:var(--muted);margin:2px 0 13px}.grid{display:grid;grid-template-columns:repeat(auto-fill,minmax(145px,1fr));gap:12px}
+.card{background:white;border:1px solid var(--line);border-radius:15px;padding:14px;min-width:0;box-shadow:0 2px 8px #17452a08;display:flex;flex-direction:column}
+.appicon{height:45px;width:45px;border-radius:13px;background:var(--pale);color:var(--green);display:grid;place-items:center;font-weight:900;font-size:19px;margin-bottom:10px}
+.card h3{font-size:15px;margin:0 0 6px;overflow-wrap:anywhere}.card p{font-size:12px;line-height:1.45;color:var(--muted);margin:0 0 12px;flex:1}
+.open{display:block;text-align:center;text-decoration:none;background:var(--green);color:white;border-radius:9px;padding:9px 7px;font-size:13px;font-weight:700}
+.empty{padding:30px 12px;text-align:center;color:var(--muted);display:none}
+footer{text-align:center;color:var(--muted);font-size:12px;padding:20px}
+.overlay{display:none;position:fixed;inset:0;background:#07150ed9;z-index:5;overflow:auto;padding:18px}.panel{max-width:480px;margin:25px auto;background:white;border-radius:16px;padding:19px}
+.panel h2{margin:0 0 14px}.panel label{display:block;font-size:13px;font-weight:700;margin:11px 0 5px}.panel input,.panel textarea,.panel select{width:100%;padding:11px;border:1px solid var(--line);border-radius:9px;font:inherit}.panel textarea{min-height:75px;resize:vertical}
+.btn{border:0;border-radius:9px;background:var(--green);color:white;padding:11px 14px;font-weight:700;cursor:pointer;margin-top:12px}.btn.secondary{background:#e9f0eb;color:#183b2b}.btn.danger{background:#ffe9e9;color:#9c1515}.btn:disabled{opacity:.6}
+.status{font-size:13px;line-height:1.5;margin-top:10px;overflow-wrap:anywhere}.notice{font-size:12px;color:var(--muted);line-height:1.5}.admin-list{margin-top:14px}.admin-item{padding:12px 0;border-bottom:1px solid var(--line);overflow-wrap:anywhere}.admin-item button{margin-top:7px}
+@media(min-width:700px){header{padding:25px 20px}main{padding:24px 20px 40px}.grid{grid-template-columns:repeat(auto-fill,minmax(180px,1fr))}.hero h2{font-size:27px}}
+</style>
+</head>
+<body>
+<header>
+  <div class="top">
+    <div class="brand"><div class="logo">BP</div><div><h1>Bharat Play</h1><div class="tag">Apps, games and useful websites in one place</div></div></div>
+    <button class="header-btn" id="adminOpen">Admin Login</button>
+  </div>
+</header>
+<main>
+  <section class="hero"><h2>Find your next favourite app</h2><p>Search apps and games, choose a category, then open the official website or download page.</p></section>
+  <div class="searchrow"><input id="search" type="search" placeholder="Search apps, games, tools..." aria-label="Search apps"></div>
+  <div class="filters" id="filters"></div>
+  <div class="count" id="count">Loading apps…</div>
+  <section class="grid" id="appGrid"></section>
+  <div class="empty" id="empty">No apps found. Try another search.</div>
+</main>
+<footer>© <span id="year"></span> Bharat Play · App names and logos belong to their respective owners.</footer>
+
+<div class="overlay" id="adminOverlay">
+  <div class="panel">
+    <div style="display:flex;justify-content:space-between;align-items:center;gap:10px"><h2>Admin Panel</h2><button class="btn secondary" id="closeAdmin" style="margin:0">Close</button></div>
+    <div id="loginArea">
+      <p class="notice">Sign in with the admin account configured in Firebase Authentication.</p>
+      <label for="email">Admin email</label><input id="email" type="email" autocomplete="username" placeholder="you@example.com">
+      <label for="password">Password</label><input id="password" type="password" autocomplete="current-password" placeholder="Firebase account password">
+      <button class="btn" id="loginBtn">Login</button>
+      <button class="btn secondary" id="resetBtn">Send password reset email</button>
+    </div>
+    <div id="adminArea" hidden>
+      <p id="adminWelcome" class="notice"></p>
+      <h3>Add a new app</h3>
+      <label for="appName">App name</label><input id="appName" placeholder="Example: My App">
+      <label for="appDesc">App description</label><textarea id="appDesc" placeholder="What does this app do?"></textarea>
+      <label for="appCategory">Category</label><select id="appCategory"><option>Social</option><option>Video</option><option>Music</option><option>Games</option><option>Shopping</option><option>Education</option><option>Tools</option><option>News</option><option>Finance</option><option>Travel</option><option>Other</option></select>
+      <label for="appUrl">Official website or download URL (https://...)</label><input id="appUrl" type="url" placeholder="https://example.com">
+      <button class="btn" id="addBtn">Add app</button>
+      <div id="adminStatus" class="status" role="status"></div>
+      <h3 style="margin-top:22px">Apps added by admin</h3><div id="adminList" class="admin-list"></div>
+      <button class="btn secondary" id="logoutBtn">Logout</button>
+    </div>
+    <div id="loginStatus" class="status" role="status"></div>
+    <p class="notice">If login fails, check Firebase Authentication → Sign-in method → Email/Password, and make sure this web app's Firebase config is correct. Never share your password.</p>
+  </div>
+</div>
+
+<script type="module">
+import { initializeApp } from "https://www.gstatic.com/firebasejs/10.12.2/firebase-app.js";
+import { getAuth, signInWithEmailAndPassword, onAuthStateChanged, signOut, sendPasswordResetEmail } from "https://www.gstatic.com/firebasejs/10.12.2/firebase-auth.js";
+import { getFirestore, collection, addDoc, getDocs, deleteDoc, doc, onSnapshot, query, orderBy, serverTimestamp } from "https://www.gstatic.com/firebasejs/10.12.2/firebase-firestore.js";
+
+/* Firebase configuration copied from Firebase Console > Project settings > Your apps. */
+const firebaseConfig = {
+  apiKey: "AIzaSyBwvt-G96rkGNeUXQQvcJjPPvWhSIHc8Hc",
+  authDomain: "bharat--play.firebaseapp.com",
+  projectId: "bharat--play",
+  storageBucket: "bharat--play.firebasestorage.app",
+  messagingSenderId: "1052808095459",
+  appId: "1:1052808095459:web:0247a2c8ce6677dee707d6",
+  measurementId: "G-BZYHJ1VXKX"
+};
+
+const ADMIN_EMAIL = "manmohan595120@gmail.com";
+const firebaseApp = initializeApp(firebaseConfig);
+const auth = getAuth(firebaseApp);
+const db = getFirestore(firebaseApp);
+const $ = id => document.getElementById(id);
+const categories = ["All","Social","Video","Music","Games","Shopping","Education","Tools","News","Finance","Travel","Other"];
+let selectedCategory = "All";
+let customApps = [];
+let unsubscribeApps = null;
+
+const starterApps = [
+["WhatsApp","Messaging and voice/video calls","Social","https://www.whatsapp.com/"],
+["Instagram","Share photos, reels and stories","Social","https://www.instagram.com/"],
+["Facebook","Connect with friends and communities","Social","https://www.facebook.com/"],
+["Messenger","Message friends and family","Social","https://www.messenger.com/"],
+["Telegram","Messaging, groups and channels","Social","https://telegram.org/"],
+["Signal","Private messaging and calls","Social","https://signal.org/"],
+["Snapchat","Share moments with friends","Social","https://www.snapchat.com/"],
+["X","Posts, news and conversations","Social","https://x.com/"],
+["Pinterest","Discover ideas and inspiration","Social","https://www.pinterest.com/"],
+["Reddit","Explore communities and discussions","Social","https://www.reddit.com/"],
+["Discord","Chat and communities","Social","https://discord.com/"],
+["LinkedIn","Professional networking","Social","https://www.linkedin.com/"],
+["Threads","Public conversations","Social","https://www.threads.net/"],
+["Skype","Online calls and messaging","Social","https://www.skype.com/"],
+["imo","Messaging and video calls","Social","https://imo.im/"],
+["YouTube","Watch videos and creators","Video","https://www.youtube.com/"],
+["YouTube Kids","Videos for younger audiences","Video","https://www.youtubekids.com/"],
+["Netflix","Movies and series streaming","Video","https://www.netflix.com/"],
+["Prime Video","Movies, series and sports","Video","https://www.primevideo.com/"],
+["JioHotstar","Shows, movies and live sports","Video","https://www.hotstar.com/"],
+["ZEE5","Indian movies and shows","Video","https://www.zee5.com/"],
+["Sony LIV","Entertainment and sports","Video","https://www.sonyliv.com/"],
+["MX Player","Video entertainment","Video","https://www.mxplayer.in/"],
+["Twitch","Watch live streams","Video","https://www.twitch.tv/"],
+["Vimeo","Watch and share videos","Video","https://vimeo.com/"],
+["Spotify","Music, podcasts and playlists","Music","https://www.spotify.com/"],
+["YouTube Music","Listen to music","Music","https://music.youtube.com/"],
+["JioSaavn","Songs and playlists","Music","https://www.jiosaavn.com/"],
+["Wynk Music","Music streaming","Music","https://wynk.in/music"],
+["SoundCloud","Discover music and audio","Music","https://soundcloud.com/"],
+["Apple Music","Listen to songs and albums","Music","https://music.apple.com/"],
+["Gaana","Indian music and podcasts","Music","https://gaana.com/"],
+["Amazon Music","Music streaming","Music","https://music.amazon.in/"],
+["Free Fire","Official game website","Games","https://ff.garena.com/"],
+["Minecraft","Build and explore worlds","Games","https://www.minecraft.net/"],
+["Roblox","Games and experiences","Games","https://www.roblox.com/"],
+["Among Us","Multiplayer party game","Games","https://www.innersloth.com/games/among-us/"],
+["Clash of Clans","Strategy village-building game","Games","https://supercell.com/en/games/clashofclans/"],
+["Clash Royale","Real-time strategy battles","Games","https://supercell.com/en/games/clashroyale/"],
+["Brawl Stars","Fast multiplayer battles","Games","https://supercell.com/en/games/brawlstars/"],
+["Candy Crush Saga","Puzzle matching game","Games","https://www.king.com/game/candycrush"],
+["Pokémon GO","Explore and catch Pokémon","Games","https://pokemongolive.com/"],
+["EA SPORTS FC Mobile","Football game","Games","https://www.ea.com/games/ea-sports-fc/fc-mobile"],
+["Steam","PC games platform","Games","https://store.steampowered.com/"],
+["Epic Games","PC games and store","Games","https://store.epicgames.com/"],
+["Google Play","Android apps and games","Shopping","https://play.google.com/store"],
+["Apple App Store","Apps for Apple devices","Shopping","https://www.apple.com/app-store/"],
+["Amazon India","Shop products online","Shopping","https://www.amazon.in/"],
+["Flipkart","Online shopping","Shopping","https://www.flipkart.com/"],
+["Meesho","Online shopping marketplace","Shopping","https://www.meesho.com/"],
+["Myntra","Fashion shopping","Shopping","https://www.myntra.com/"],
+["AJIO","Fashion and lifestyle shopping","Shopping","https://www.ajio.com/"],
+["Snapdeal","Online shopping","Shopping","https://www.snapdeal.com/"],
+["eBay","Shop and sell online","Shopping","https://www.ebay.com/"],
+["Etsy","Handmade and vintage marketplace","Shopping","https://www.etsy.com/"],
+["Google","Search the web","Tools","https://www.google.com/"],
+["Google Maps","Maps and navigation","Travel","https://maps.google.com/"],
+["Google Drive","Cloud file storage","Tools","https://drive.google.com/"],
+["Google Docs","Create documents online","Tools","https://docs.google.com/"],
+["Google Sheets","Create spreadsheets online","Tools","https://sheets.google.com/"],
+["Google Translate","Translate languages","Tools","https://translate.google.com/"],
+["Gmail","Email service","Tools","https://mail.google.com/"],
+["Google Photos","Photo storage and sharing","Tools","https://photos.google.com/"],
+["Google Meet","Video meetings","Tools","https://meet.google.com/"],
+["Google Calendar","Manage events and schedules","Tools","https://calendar.google.com/"],
+["Microsoft 365","Office productivity tools","Tools","https://www.microsoft.com/microsoft-365"],
+["Microsoft Teams","Chat and video meetings","Tools","https://www.microsoft.com/microsoft-teams"],
+["Zoom","Video meetings","Tools","https://zoom.us/"],
+["Canva","Design posters and presentations","Tools","https://www.canva.com/"],
+["Adobe Acrobat","PDF tools","Tools","https://www.adobe.com/acrobat.html"],
+["Dropbox","Cloud file storage","Tools","https://www.dropbox.com/"],
+["Notion","Notes and workspace","Tools","https://www.notion.so/"],
+["Evernote","Notes and organisation","Tools","https://evernote.com/"],
+["Trello","Organise tasks and projects","Tools","https://trello.com/"],
+["GitHub","Code hosting and collaboration","Education","https://github.com/"],
+["Khan Academy","Free learning resources","Education","https://www.khanacademy.org/"],
+["Coursera","Online courses","Education","https://www.coursera.org/"],
+["Udemy","Online learning courses","Education","https://www.udemy.com/"],
+["Duolingo","Learn languages","Education","https://www.duolingo.com/"],
+["Wikipedia","Free online encyclopedia","Education","https://www.wikipedia.org/"],
+["BYJU'S","Learning resources","Education","https://byjus.com/"],
+["Unacademy","Online learning","Education","https://unacademy.com/"],
+["Physics Wallah","Learning resources and courses","Education","https://www.pw.live/"],
+["Google Classroom","Classwork and assignments","Education","https://classroom.google.com/"],
+["BBC News","News and current affairs","News","https://www.bbc.com/news"],
+["Reuters","International news","News","https://www.reuters.com/"],
+["The Hindu","Indian news","News","https://www.thehindu.com/"],
+["Indian Express","Indian news and analysis","News","https://indianexpress.com/"],
+["NDTV","News and updates","News","https://www.ndtv.com/"],
+["Aaj Tak","Hindi news","News","https://www.aajtak.in/"],
+["Moneycontrol","Business and market news","Finance","https://www.moneycontrol.com/"],
+["Google Pay","Digital payments","Finance","https://pay.google.com/"],
+["PhonePe","Digital payments","Finance","https://www.phonepe.com/"],
+["Paytm","Payments and financial services","Finance","https://paytm.com/"],
+["BHIM UPI","UPI payments information","Finance","https://www.bhimupi.org.in/"],
+["SBI","State Bank of India","Finance","https://sbi.co.in/"],
+["HDFC Bank","Banking services","Finance","https://www.hdfcbank.com/"],
+["ICICI Bank","Banking services","Finance","https://www.icicibank.com/"],
+["IRCTC","Indian railway ticket booking","Travel","https://www.irctc.co.in/"],
+["MakeMyTrip","Travel bookings","Travel","https://www.makemytrip.com/"],
+["Goibibo","Travel booking service","Travel","https://www.goibibo.com/"],
+["Booking.com","Hotels and accommodation","Travel","https://www.booking.com/"],
+["Uber","Ride booking","Travel","https://www.uber.com/"],
+["Ola","Ride booking","Travel","https://www.olacabs.com/"],
+[" redBus","Bus ticket booking","Travel","https://www.redbus.in/"],
+["Yatra","Travel booking","Travel","https://www.yatra.com/"],
+["AccuWeather","Weather forecasts","Tools","https://www.accuweather.com/"],
+["Speedtest","Check internet speed","Tools","https://www.speedtest.net/"],
+["OpenStreetMap","Open map service","Travel","https://www.openstreetmap.org/"],
+["Truecaller","Caller identification","Tools","https://www.truecaller.com/"],
+["Zomato","Discover restaurants and food","Other","https://www.zomato.com/"],
+["Swiggy","Food delivery and dining","Other","https://www.swiggy.com/"],
+["Blinkit","Quick commerce and groceries","Other","https://blinkit.com/"],
+["BigBasket","Online groceries","Other","https://www.bigbasket.com/"]
+].map((a,i)=>({id:"starter-"+i,name:a[0].trim(),description:a[1],category:a[2],url:a[3],starter:true}));
+
+function safeUrl(raw){try{const u=new URL(raw);return u.protocol==="https:"?u.href:null}catch{return null}}
+function iconFor(name){return (name||"A").trim().slice(0,1).toUpperCase()}
+function allApps(){return [...customApps,...starterApps]}
+function renderFilters(){
+  $("filters").innerHTML="";
+  categories.forEach(cat=>{const b=document.createElement("button");b.className="chip"+(selectedCategory===cat?" active":"");b.textContent=cat;b.onclick=()=>{selectedCategory=cat;renderFilters();renderApps()};$("filters").appendChild(b)});
+}
+function renderApps(){
+  const term=$("search").value.trim().toLowerCase();
+  const list=allApps().filter(a=>(selectedCategory==="All"||a.category===selectedCategory)&&`${a.name} ${a.description} ${a.category}`.toLowerCase().includes(term));
+  $("appGrid").innerHTML="";
+  list.forEach(a=>{
+    const card=document.createElement("article");card.className="card";
+    const icon=document.createElement("div");icon.className="appicon";icon.textContent=iconFor(a.name);
+    const h=document.createElement("h3");h.textContent=a.name;
+    const p=document.createElement("p");p.textContent=a.description||"Open app website";
+    const link=document.createElement("a");link.className="open";link.href=safeUrl(a.url)||"#";link.target="_blank";link.rel="noopener noreferrer";link.textContent="Open website";
+    if(!safeUrl(a.url)){link.removeAttribute("target");link.onclick=e=>{e.preventDefault();alert("This app has no valid HTTPS link yet.")}}
+    card.append(icon,h,p,link);$("appGrid").appendChild(card);
+  });
+  $("count").textContent=`Showing ${list.length} app${list.length===1?"":"s"}`;
+  $("empty").style.display=list.length?"none":"block";
+}
+$("year").textContent=new Date().getFullYear();
+$("search").addEventListener("input",renderApps);
+renderFilters();renderApps();
+
+$("adminOpen").onclick=()=>{$("adminOverlay").style.display="block";$("loginStatus").textContent=""};
+$("closeAdmin").onclick=()=>{$("adminOverlay").style.display="none"};
+$("adminOverlay").addEventListener("click",e=>{if(e.target===$("adminOverlay"))$("adminOverlay").style.display="none"});
+function setLoginStatus(msg){$("loginStatus").textContent=msg}
+function setAdminStatus(msg){$("adminStatus").textContent=msg}
+$("loginBtn").onclick=async()=>{
+  const email=$("email").value.trim(),password=$("password").value;
+  if(!email||!password){setLoginStatus("Email aur password bharein.");return}
+  $("loginBtn").disabled=true;setLoginStatus("Logging in…");
+  try{await signInWithEmailAndPassword(auth,email,password);setLoginStatus("")}
+  catch(e){setLoginStatus("Login error: "+(e.code||e.message)+" — Firebase config, Email/Password sign-in aur account check karein.")}
+  finally{$("loginBtn").disabled=false}
+};
+$("resetBtn").onclick=async()=>{
+  const email=$("email").value.trim();if(!email){setLoginStatus("Pehle email bharein.");return}
+  try{await sendPasswordResetEmail(auth,email);setLoginStatus("Password reset email bhej diya. Inbox/spam check karein.")}
+  catch(e){setLoginStatus("Reset error: "+(e.code||e.message))}
+};
+$("logoutBtn").onclick=()=>signOut(auth);
+onAuthStateChanged(auth,async user=>{
+  const isAdmin=!!user&&user.email?.toLowerCase()===ADMIN_EMAIL.toLowerCase();
+  $("loginArea").hidden=isAdmin;$("adminArea").hidden=!isAdmin;
+  if(user&&!isAdmin){setLoginStatus("Is account ko admin access nahi hai.");await signOut(auth);return}
+  if(isAdmin){
+    $("adminWelcome").textContent="Logged in as "+user.email;
+    if(unsubscribeApps)unsubscribeApps();
+    unsubscribeApps=onSnapshot(query(collection(db,"apps"),orderBy("createdAt","desc")),snap=>{
+      customApps=snap.docs.map(d=>({id:d.id,...d.data(),starter:false}));
+      renderApps();renderAdminList();
+    },err=>{setAdminStatus("Apps load nahi hui: "+err.message+" — Firestore rules check karein.");});
+  }else{
+    if(unsubscribeApps){unsubscribeApps();unsubscribeApps=null}
+    customApps=[];renderApps();$("adminList").innerHTML="";
+  }
+});
+$("addBtn").onclick=async()=>{
+  const name=$("appName").value.trim(),description=$("appDesc").value.trim(),category=$("appCategory").value,url=safeUrl($("appUrl").value.trim());
+  if(!name||!description||!url){setAdminStatus("App name, description aur valid HTTPS URL bharein.");return}
+  $("addBtn").disabled=true;setAdminStatus("Adding app…");
+  try{
+    await addDoc(collection(db,"apps"),{name,description,category,url,createdAt:serverTimestamp(),createdBy:auth.currentUser.email});
+    $("appName").value="";$("appDesc").value="";$("appUrl").value="";
+    setAdminStatus("App successfully add ho gayi.");
+  }catch(e){setAdminStatus("Add error: "+(e.code||e.message)+" — Firestore Database/rules check karein.")}
+  finally{$("addBtn").disabled=false}
+};
+function renderAdminList(){
+  $("adminList").innerHTML="";
+  if(!customApps.length){$("adminList").textContent="Abhi admin se koi app add nahi hui.";return}
+  customApps.forEach(a=>{
+    const row=document.createElement("div");row.className="admin-item";
+    const title=document.createElement("strong");title.textContent=a.name+" ";
+    const meta=document.createElement("span");meta.className="notice";meta.textContent="("+a.category+")";
+    const br=document.createElement("br");
+    const del=document.createElement("button");del.className="btn danger";del.textContent="Delete";del.onclick=async()=>{
+      if(!confirm(`"${a.name}" delete karein?`))return;
+      try{await deleteDoc(doc(db,"apps",a.id));setAdminStatus("App deleted.")}
+      catch(e){setAdminStatus("Delete error: "+(e.code||e.message))}
+    };
+    row.append(title,meta,br,del);$("adminList").appendChild(row);
+  });
+}
+</script>
+</body>
+</html>
