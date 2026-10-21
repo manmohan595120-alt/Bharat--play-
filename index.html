@@ -1,1 +1,429 @@
-hgfz shiv ghjj
+<!DOCTYPE html>
+<html lang="hi">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<meta name="theme-color" content="#087f5b">
+<meta name="description" content="Bharat Play - Discover apps, games and useful tools.">
+<title>Bharat Play - Apps Store</title>
+
+<style>
+*{box-sizing:border-box}
+body{margin:0;font-family:Arial,sans-serif;background:#f5f7f6;color:#202124}
+header{background:#087f5b;color:white;padding:18px 15px}
+header h1{margin:0;font-size:27px}
+header p{margin:6px 0 0;font-size:14px}
+.top{display:flex;align-items:center;justify-content:space-between;gap:10px}
+button{border:0;border-radius:8px;padding:11px 14px;cursor:pointer;font-weight:bold}
+#loginBtn{background:white;color:#087f5b}
+.searchbox{padding:14px;background:white;position:sticky;top:0;z-index:5}
+#search{width:100%;padding:13px;border:1px solid #d4dcd7;border-radius:25px;font-size:16px}
+#filters{display:flex;gap:8px;overflow:auto;padding:12px}
+.filter{white-space:nowrap;background:white;border:1px solid #d8e0db}
+.filter.active{background:#087f5b;color:white}
+h2{font-size:20px;margin:14px}
+#count{margin:0 14px;color:#64716a;font-size:13px}
+#appGrid{display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:12px;padding:12px}
+.card{background:white;border-radius:13px;padding:13px;box-shadow:0 2px 7px #0000000d;min-width:0}
+.icon{width:55px;height:55px;border-radius:14px;background:#e0f3e9;display:flex;align-items:center;justify-content:center;font-size:27px;margin-bottom:10px}
+.card h3{font-size:16px;margin:5px 0}
+.category{font-size:12px;color:#087f5b;font-weight:bold}
+.card p{font-size:13px;color:#626b65;line-height:1.45;min-height:36px;overflow-wrap:anywhere}
+.actions{display:flex;flex-direction:column;gap:7px}
+.actions a,.actions button{display:block;text-align:center;text-decoration:none;border-radius:8px;padding:10px 5px;font-size:13px}
+.open{background:#087f5b;color:white}
+.store{background:#e8f4ed;color:#075f43}
+#empty{text-align:center;padding:30px;display:none}
+footer{text-align:center;padding:25px;color:#65716b;font-size:13px}
+.modal{display:none;position:fixed;inset:0;background:#0009;z-index:20;align-items:center;justify-content:center;padding:18px}
+.modalbox{background:white;border-radius:15px;padding:20px;width:100%;max-width:400px}
+.modalbox input,.modalbox select{width:100%;padding:12px;margin:7px 0;border:1px solid #ccd5cf;border-radius:8px;font-size:15px}
+.primary{background:#087f5b;color:white;width:100%;margin-top:8px}
+.secondary{background:#e9eeeb;width:100%;margin-top:8px}
+.notice{font-size:12px;color:#68736d;line-height:1.5}
+#adminPanel{display:none;padding:14px;background:white;margin:12px;border-radius:12px}
+@media(min-width:650px){#appGrid{grid-template-columns:repeat(4,minmax(0,1fr))}header{padding-left:6%;padding-right:6%}}
+</style>
+</head>
+
+<body>
+<header>
+  <div class="top">
+    <div>
+      <h1>🇮🇳 Bharat Play</h1>
+      <p>Discover apps, games and useful tools</p>
+    </div>
+    <button id="loginBtn">Admin Login</button>
+  </div>
+</header>
+
+<div class="searchbox">
+  <input id="search" type="search" placeholder="🔍 Search apps and games...">
+</div>
+
+<div id="filters"></div>
+
+<h2>Popular Apps & Games</h2>
+<div id="count">Loading apps...</div>
+<div id="appGrid"></div>
+<div id="empty">कोई ऐप नहीं मिली। दूसरा नाम खोजें।</div>
+
+<section id="adminPanel">
+  <h2>Admin Panel</h2>
+  <p>नई ऐप जोड़ें</p>
+  <input id="appName" placeholder="App name">
+  <input id="appDescription" placeholder="App description">
+  <input id="appCategory" placeholder="Category, जैसे Social">
+  <input id="appUrl" type="url" placeholder="Official website URL (https://...)">
+  <input id="appIcon" placeholder="Emoji icon, जैसे 📱">
+  <button id="addBtn" class="primary">Add App</button>
+  <button id="logoutBtn" class="secondary">Logout</button>
+  <p class="notice">ऐप जोड़ने के लिए Firebase Firestore सही तरीके से सेट होना चाहिए।</p>
+</section>
+
+<div class="modal" id="loginModal">
+  <div class="modalbox">
+    <h2>Admin Login</h2>
+    <p class="notice">अपने Firebase Admin ईमेल और पासवर्ड से लॉगिन करें।</p>
+    <input id="email" type="email" placeholder="Admin email">
+    <input id="password" type="password" placeholder="Password">
+    <button id="submitLogin" class="primary">Login</button>
+    <button id="closeLogin" class="secondary">Cancel</button>
+    <p id="loginMessage" class="notice"></p>
+  </div>
+</div>
+
+<footer>
+  Bharat Play © <span id="year"></span><br>
+  Apps के डाउनलोड और उपलब्धता संबंधित आधिकारिक वेबसाइट पर निर्भर करते हैं।
+</footer>
+
+<script src="https://www.gstatic.com/firebasejs/10.12.2/firebase-app-compat.js"></script>
+<script src="https://www.gstatic.com/firebasejs/10.12.2/firebase-auth-compat.js"></script>
+<script src="https://www.gstatic.com/firebasejs/10.12.2/firebase-firestore-compat.js"></script>
+
+<script>
+const firebaseConfig = {
+  apiKey: "AIzaSyBwvt-G96rkGNeUXQQvcJjPPvWhSIHc8Hc",
+  authDomain: "bharat--play.firebaseapp.com",
+  projectId: "bharat--play",
+  storageBucket: "bharat--play.firebasestorage.app",
+  messagingSenderId: "1052808095459",
+  appId: "1:1052808095459:web:0247a2c8ce6677dee707d6",
+  measurementId: "G-BZYHJ1VXKX"
+};
+
+const ADMIN_EMAIL = "manmohan595120@gmail.com";
+
+const apps = [
+["WhatsApp","Messaging","Chat and make calls","💬","https://www.whatsapp.com"],
+["YouTube","Video","Watch videos","▶️","https://www.youtube.com"],
+["Instagram","Social","Share photos and reels","📸","https://www.instagram.com"],
+["Facebook","Social","Connect with friends","🔵","https://www.facebook.com"],
+["Telegram","Messaging","Messages and channels","✈️","https://telegram.org"],
+["Google Chrome","Tools","Browse the internet","🌐","https://www.google.com/chrome"],
+["Google Maps","Travel","Maps and navigation","🗺️","https://maps.google.com"],
+["Gmail","Productivity","Email and messages","✉️","https://mail.google.com"],
+["Google Drive","Productivity","Store files online","📁","https://drive.google.com"],
+["Google Photos","Photography","Store and manage photos","🌄","https://photos.google.com"],
+["Google Meet","Communication","Video meetings","📹","https://meet.google.com"],
+["Google Translate","Tools","Translate languages","🌐","https://translate.google.com"],
+["Google Pay","Finance","Digital payments","💳","https://pay.google.com"],
+["PhonePe","Finance","Payments and services","💜","https://www.phonepe.com"],
+["Paytm","Finance","Payments and recharges","💰","https://paytm.com"],
+["Amazon","Shopping","Shop online","📦","https://www.amazon.in"],
+["Flipkart","Shopping","Online shopping","🛍️","https://www.flipkart.com"],
+["Meesho","Shopping","Explore products","🛒","https://www.meesho.com"],
+["Snapchat","Social","Share moments","👻","https://www.snapchat.com"],
+["X","Social","News and conversations","𝕏","https://x.com"],
+["LinkedIn","Productivity","Professional networking","💼","https://www.linkedin.com"],
+["Spotify","Music","Listen to music","🎵","https://www.spotify.com"],
+["JioSaavn","Music","Music and podcasts","🎶","https://www.jiosaavn.com"],
+["Shazam","Music","Identify songs","🎧","https://www.shazam.com"],
+["Netflix","Entertainment","Movies and shows","🎬","https://www.netflix.com"],
+["JioHotstar","Entertainment","Shows and sports","📺","https://www.hotstar.com"],
+["Sony LIV","Entertainment","Entertainment and sports","📺","https://www.sonyliv.com"],
+["ZEE5","Entertainment","Movies and shows","🎞️","https://www.zee5.com"],
+["MX Player","Entertainment","Video entertainment","▶️","https://www.mxplayer.in"],
+["Jio","Tools","Jio services","📱","https://www.jio.com"],
+["Airtel","Tools","Airtel services","📶","https://www.airtel.in"],
+["IRCTC","Travel","Railway booking","🚆","https://www.irctc.co.in"],
+["MakeMyTrip","Travel","Travel booking","✈️","https://www.makemytrip.com"],
+["RedBus","Travel","Bus booking","🚌","https://www.redbus.in"],
+["Uber","Travel","Book a ride","🚕","https://www.uber.com"],
+["Ola","Travel","Ride booking","🚖","https://www.olacabs.com"],
+["Swiggy","Food","Food delivery","🍔","https://www.swiggy.com"],
+["Zomato","Food","Find food and restaurants","🍕","https://www.zomato.com"],
+["Blinkit","Shopping","Quick grocery delivery","🥦","https://blinkit.com"],
+["BigBasket","Shopping","Online groceries","🥬","https://www.bigbasket.com"],
+["Myntra","Shopping","Fashion shopping","👕","https://www.myntra.com"],
+["AJIO","Shopping","Fashion and lifestyle","👟","https://www.ajio.com"],
+["CRED","Finance","Payments and bills","💳","https://cred.club"],
+["Groww","Finance","Investment platform","📈","https://groww.in"],
+["Zerodha","Finance","Investment services","📊","https://zerodha.com"],
+["Duolingo","Education","Learn languages","🦉","https://www.duolingo.com"],
+["Khan Academy","Education","Free learning resources","📚","https://www.khanacademy.org"],
+["Unacademy","Education","Online learning","🎓","https://unacademy.com"],
+["Physics Wallah","Education","Learning resources","📖","https://www.pw.live"],
+["BYJU'S","Education","Learning resources","🎒","https://byjus.com"],
+["Canva","Tools","Create designs","🎨","https://www.canva.com"],
+["Adobe Acrobat","Tools","Read PDF documents","📄","https://www.adobe.com/acrobat.html"],
+["Microsoft Word","Productivity","Create documents","📝","https://www.microsoft.com/microsoft-365/word"],
+["Microsoft Excel","Productivity","Spreadsheets","📊","https://www.microsoft.com/microsoft-365/excel"],
+["Microsoft Teams","Productivity","Team communication","👥","https://www.microsoft.com/microsoft-teams"],
+["Zoom","Communication","Video meetings","📹","https://zoom.us"],
+["Discord","Communication","Communities and chat","🎮","https://discord.com"],
+["Reddit","Social","Communities and discussions","🟠","https://www.reddit.com"],
+["Pinterest","Social","Discover ideas","📌","https://www.pinterest.com"],
+["Quora","Education","Questions and answers","❓","https://www.quora.com"],
+["Wikipedia","Education","Free encyclopedia","📚","https://www.wikipedia.org"],
+["Weather","Tools","Check local weather","🌦️","https://weather.com"],
+["AccuWeather","Tools","Weather forecasts","🌤️","https://www.accuweather.com"],
+["Truecaller","Tools","Caller identification","📞","https://www.truecaller.com"],
+["Files by Google","Tools","Manage files","📂","https://files.google.com"],
+["Google Keep","Productivity","Notes and lists","📒","https://keep.google.com"],
+["Google Calendar","Productivity","Manage your schedule","🗓️","https://calendar.google.com"],
+["Google Home","Tools","Manage compatible devices","🏠","https://home.google.com"],
+["Google Earth","Travel","Explore the planet","🌍","https://earth.google.com"],
+["Google News","News","Read news","📰","https://news.google.com"],
+["Microsoft Outlook","Productivity","Email and calendar","📧","https://outlook.live.com"],
+["Dropbox","Productivity","Cloud file storage","📦","https://www.dropbox.com"],
+["Duolingo Math","Education","Math learning resources","➗","https://www.duolingo.com"],
+["Chess.com","Games","Play chess online","♟️","https://www.chess.com"],
+["Roblox","Games","Explore games and experiences","🎮","https://www.roblox.com"],
+["Minecraft","Games","Build and explore worlds","🧱","https://www.minecraft.net"],
+["Clash of Clans","Games","Strategy game","🏰","https://supercell.com/en/games/clashofclans"],
+["Clash Royale","Games","Strategy battles","👑","https://supercell.com/en/games/clashroyale"],
+["Brawl Stars","Games","Multiplayer battles","⭐","https://supercell.com/en/games/brawlstars"],
+["PUBG MOBILE","Games","Battle royale game","🎯","https://www.pubgmobile.com"],
+["Call of Duty Mobile","Games","Action game","🎮","https://www.callofduty.com/mobile"],
+["Asphalt Legends","Games","Racing game","🏎️","https://asphaltlegends.com"],
+["Candy Crush Saga","Games","Puzzle game","🍬","https://www.king.com/game/candycrush"],
+["Subway Surfers","Games","Endless runner game","🏃","https://subwaysurfers.com"],
+["Temple Run 2","Games","Adventure running game","🏃","https://www.imangistudios.com"],
+["Ludo King","Games","Play Ludo","🎲","https://ludoking.com"],
+["Among Us","Games","Multiplayer social game","🚀","https://www.innersloth.com/games/among-us"],
+["Steam","Games","PC gaming platform","🎮","https://store.steampowered.com"],
+["Epic Games","Games","Games and store","🕹️","https://store.epicgames.com"],
+["Twitch","Entertainment","Watch gaming streams","🟣","https://www.twitch.tv"],
+["CapCut","Photography","Video editing","✂️","https://www.capcut.com"],
+["InShot","Photography","Edit videos and photos","🎬","https://inshot.com"],
+["Picsart","Photography","Photo editing","🖼️","https://picsart.com"],
+["Snapseed","Photography","Photo editing tools","📷","https://snapseed.online"],
+["VLC","Entertainment","Media player","▶️","https://www.videolan.org/vlc"],
+["SoundCloud","Music","Discover music","🎧","https://soundcloud.com"],
+["BookMyShow","Entertainment","Movie and event tickets","🎟️","https://in.bookmyshow.com"],
+["OLX","Shopping","Buy and sell items","🏷️","https://www.olx.in"],
+["Policybazaar","Finance","Compare insurance","🛡️","https://www.policybazaar.com"],
+["Naukri","Productivity","Search for jobs","💼","https://www.naukri.com"],
+["Indeed","Productivity","Search for jobs","🔎","https://in.indeed.com"],
+["DigiLocker","Tools","Access digital documents","🪪","https://www.digilocker.gov.in"],
+["UMANG","Tools","Government services","🇮🇳","https://web.umang.gov.in"],
+["Aarogya Setu","Health","Health information","❤️","https://www.mygov.in"],
+["ePathshala","Education","Digital learning resources","📚","https://epathshala.nic.in"],
+["India Post","Tools","Postal services","📮","https://www.indiapost.gov.in"],
+["Bharat Play","Entertainment","Discover apps on Bharat Play","🇮🇳","https://manmohan595120-alt.github.io/Bharat--play-/"]
+].map((x,i)=>({
+ id:"local-"+i,name:x[0],category:x[1],description:x[2],
+ icon:x[3],url:x[4]
+}));
+
+const $ = id => document.getElementById(id);
+let extraApps = [];
+let activeCategory = "All";
+let currentUser = null;
+let db = null;
+let auth = null;
+
+$("year").textContent = new Date().getFullYear();
+
+function allApps(){
+  return [...apps,...extraApps];
+}
+
+function safeUrl(value){
+  try{
+    const u = new URL(value);
+    return u.protocol === "https:" ? u.href : "";
+  }catch(e){
+    return "";
+  }
+}
+
+function renderFilters(){
+  const categories = ["All",...new Set(allApps().map(a=>a.category).filter(Boolean))];
+  $("filters").innerHTML = "";
+  categories.forEach(category=>{
+    const b = document.createElement("button");
+    b.className = "filter" + (activeCategory===category?" active":"");
+    b.textContent = category;
+    b.addEventListener("click",()=>{
+      activeCategory = category;
+      renderFilters();
+      renderApps();
+    });
+    $("filters").appendChild(b);
+  });
+}
+
+function renderApps(){
+  const q = $("search").value.trim().toLowerCase();
+  const list = allApps().filter(a=>{
+    const text = [a.name,a.category,a.description].join(" ").toLowerCase();
+    return text.includes(q) &&
+      (activeCategory==="All" || a.category===activeCategory);
+  });
+
+  $("appGrid").innerHTML = "";
+  list.forEach(a=>{
+    const card = document.createElement("article");
+    card.className = "card";
+
+    const icon = document.createElement("div");
+    icon.className = "icon";
+    icon.textContent = a.icon || "📱";
+
+    const h = document.createElement("h3");
+    h.textContent = a.name;
+
+    const cat = document.createElement("div");
+    cat.className = "category";
+    cat.textContent = a.category || "Apps";
+
+    const p = document.createElement("p");
+    p.textContent = a.description || "Discover this app.";
+
+    const actions = document.createElement("div");
+    actions.className = "actions";
+
+    const link = document.createElement("a");
+    link.className = "open";
+    link.href = safeUrl(a.url) || "https://play.google.com/store";
+    link.target = "_blank";
+    link.rel = "noopener noreferrer";
+    link.textContent = "Open Official Site";
+
+    const store = document.createElement("a");
+    store.className = "store";
+    store.href = "https://play.google.com/store/search?q="+
+      encodeURIComponent(a.name)+"&c=apps";
+    store.target = "_blank";
+    store.rel = "noopener noreferrer";
+    store.textContent = "Find on Play Store";
+
+    actions.append(link,store);
+    card.append(icon,h,cat,p,actions);
+    $("appGrid").appendChild(card);
+  });
+
+  $("count").textContent = "Showing "+list.length+" apps";
+  $("empty").style.display = list.length ? "none" : "block";
+}
+
+$("search").addEventListener("input",renderApps);
+renderFilters();
+renderApps();
+
+$("loginBtn").addEventListener("click",()=>{
+  if(currentUser && currentUser.email===ADMIN_EMAIL){
+    $("adminPanel").style.display="block";
+    $("adminPanel").scrollIntoView({behavior:"smooth"});
+  }else{
+    $("loginModal").style.display="flex";
+  }
+});
+
+$("closeLogin").addEventListener("click",()=>{
+  $("loginModal").style.display="none";
+});
+
+$("submitLogin").addEventListener("click",async()=>{
+  const email=$("email").value.trim();
+  const password=$("password").value;
+  $("loginMessage").textContent="Logging in...";
+  try{
+    if(!auth) throw new Error("Firebase is not ready.");
+    const result=await auth.signInWithEmailAndPassword(email,password);
+    if(result.user.email!==ADMIN_EMAIL){
+      await auth.signOut();
+      throw new Error("This email is not the admin email.");
+    }
+    $("loginModal").style.display="none";
+    $("adminPanel").style.display="block";
+    $("loginMessage").textContent="";
+  }catch(err){
+    $("loginMessage").textContent=err.message;
+  }
+});
+
+$("logoutBtn").addEventListener("click",async()=>{
+  if(auth) await auth.signOut();
+  currentUser=null;
+  $("adminPanel").style.display="none";
+});
+
+$("addBtn").addEventListener("click",async()=>{
+  if(!currentUser || currentUser.email!==ADMIN_EMAIL){
+    alert("Please login as admin first.");
+    return;
+  }
+  const name=$("appName").value.trim();
+  const description=$("appDescription").value.trim();
+  const category=$("appCategory").value.trim() || "Other";
+  const url=safeUrl($("appUrl").value.trim());
+  const icon=$("appIcon").value.trim() || "📱";
+
+  if(!name || !description || !url){
+    alert("App name, description and a valid HTTPS URL are required.");
+    return;
+  }
+  if(!db){
+    alert("Firebase Firestore is not ready.");
+    return;
+  }
+  try{
+    await db.collection("apps").add({
+      name,description,category,url,icon,
+      createdAt:firebase.firestore.FieldValue.serverTimestamp()
+    });
+    alert("App added successfully.");
+    $("appName").value="";
+    $("appDescription").value="";
+    $("appCategory").value="";
+    $("appUrl").value="";
+    $("appIcon").value="";
+  }catch(err){
+    alert("Could not add app: "+err.message);
+  }
+});
+
+try{
+  firebase.initializeApp(firebaseConfig);
+  auth=firebase.auth();
+  db=firebase.firestore();
+
+  auth.onAuthStateChanged(user=>{
+    currentUser=user;
+    if(user && user.email===ADMIN_EMAIL){
+      $("loginBtn").textContent="Admin Panel";
+    }else{
+      $("loginBtn").textContent="Admin Login";
+      $("adminPanel").style.display="none";
+    }
+  });
+
+  db.collection("apps").onSnapshot(snapshot=>{
+    extraApps=snapshot.docs.map(doc=>({
+      id:doc.id,...doc.data()
+    }));
+    renderFilters();
+    renderApps();
+  },error=>{
+    console.warn("Could not load online apps:",error.message);
+  });
+}catch(error){
+  console.error("Firebase setup error:",error);
+}
+</script>
+</body>
+</html>
