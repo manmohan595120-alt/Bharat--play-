@@ -611,13 +611,21 @@ $("appForm").addEventListener("submit", async event => {
     $("saveBtn").disabled = false;
   }
 });
-$("showAdminBtn").addEventListener("click", () => {
-  $("adminArea").classList.remove("hidden");
-  $("loginArea").classList.remove("hidden");
-  $("adminArea").scrollIntoView({
-    behavior: "smooth",
-    block: "start"
-  });
+  $("showAdminBtn").addEventListener("click", () => {
+$("adminArea").classList.remove("hidden");
+
+if (isAdmin) {
+$("loginArea").classList.add("hidden");
+$("adminTools").classList.remove("hidden");
+} else {
+$("loginArea").classList.remove("hidden");
+$("adminTools").classList.add("hidden");
+}
+
+$("adminArea").scrollIntoView({
+behavior: "smooth",
+block: "start"
+});
 });
 renderCategories();
 renderApps();
