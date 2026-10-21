@@ -1,1 +1,438 @@
-homannnnmmmbcjygc
+<!DOCTYPE html>
+<html lang="hi">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<meta name="theme-color" content="#168747">
+<title>Bharat Play - Apps & Games</title>
+
+<style>
+* {
+  box-sizing: border-box;
+}
+
+body {
+  margin: 0;
+  font-family: Arial, sans-serif;
+  background: #f5f8f5;
+  color: #17251c;
+}
+
+header {
+  background: #168747;
+  color: white;
+  padding: 18px 15px;
+}
+
+.brand {
+  display: flex;
+  align-items: center;
+  gap: 12px;
+}
+
+.logo {
+  width: 48px;
+  height: 48px;
+  background: white;
+  color: #168747;
+  border-radius: 15px;
+  display: grid;
+  place-items: center;
+  font-size: 28px;
+  font-weight: bold;
+}
+
+.brand h1 {
+  margin: 0;
+  font-size: 24px;
+}
+
+.brand p {
+  margin: 5px 0 0;
+  font-size: 12px;
+}
+
+.search {
+  width: 100%;
+  margin-top: 18px;
+  padding: 14px;
+  border: none;
+  border-radius: 12px;
+  font-size: 16px;
+  outline: none;
+}
+
+.banner {
+  margin: 16px;
+  padding: 22px;
+  border-radius: 18px;
+  background: linear-gradient(120deg, #d9fbe4, #fff5d9);
+}
+
+.banner h2 {
+  margin: 0 0 8px;
+  color: #126b39;
+}
+
+.banner p {
+  margin: 0;
+  line-height: 1.5;
+}
+
+h2.section-title {
+  font-size: 20px;
+  margin: 22px 16px 12px;
+}
+
+.categories {
+  display: flex;
+  gap: 9px;
+  padding: 0 16px 8px;
+  overflow-x: auto;
+}
+
+.category {
+  flex-shrink: 0;
+  border: 1px solid #d8e6dc;
+  border-radius: 22px;
+  padding: 10px 16px;
+  background: white;
+  cursor: pointer;
+  font-size: 14px;
+}
+
+.category.active {
+  background: #168747;
+  color: white;
+  border-color: #168747;
+}
+
+.apps {
+  display: grid;
+  grid-template-columns: repeat(2, minmax(0, 1fr));
+  gap: 12px;
+  padding: 0 12px 24px;
+}
+
+.card {
+  background: white;
+  padding: 14px 10px;
+  border-radius: 16px;
+  border: 1px solid #e7eee8;
+  box-shadow: 0 2px 7px #00000008;
+  min-width: 0;
+}
+
+.app-icon {
+  width: 55px;
+  height: 55px;
+  display: grid;
+  place-items: center;
+  border-radius: 15px;
+  background: #e7f6eb;
+  font-size: 30px;
+  margin-bottom: 10px;
+}
+
+.app-name {
+  font-size: 15px;
+  font-weight: bold;
+  margin-bottom: 6px;
+  overflow-wrap: anywhere;
+}
+
+.app-category {
+  color: #6b786f;
+  font-size: 12px;
+  margin-bottom: 8px;
+}
+
+.rating {
+  font-size: 12px;
+  color: #657568;
+  margin-bottom: 12px;
+}
+
+.install {
+  display: block;
+  width: 100%;
+  text-align: center;
+  background: #168747;
+  color: white;
+  border: none;
+  border-radius: 9px;
+  padding: 10px 4px;
+  text-decoration: none;
+  font-weight: bold;
+  font-size: 13px;
+}
+
+.install:active {
+  background: #0c6230;
+}
+
+.empty {
+  grid-column: 1 / -1;
+  padding: 30px 10px;
+  text-align: center;
+  color: #66736a;
+}
+
+footer {
+  background: white;
+  text-align: center;
+  padding: 22px 12px;
+  color: #657568;
+  font-size: 12px;
+  line-height: 1.8;
+}
+
+.note {
+  margin: 0 16px 20px;
+  font-size: 12px;
+  color: #68776c;
+  line-height: 1.6;
+}
+
+@media (min-width: 700px) {
+  .apps {
+    grid-template-columns: repeat(4, minmax(0, 1fr));
+    padding-left: 22px;
+    padding-right: 22px;
+  }
+
+  header {
+    padding-left: 25px;
+    padding-right: 25px;
+  }
+
+  .banner {
+    margin-left: 22px;
+    margin-right: 22px;
+  }
+}
+</style>
+</head>
+
+<body>
+
+<header>
+  <div class="brand">
+    <div class="logo">B</div>
+    <div>
+      <h1>Bharat Play 🇮🇳</h1>
+      <p>Apps, Games & Digital World</p>
+    </div>
+  </div>
+
+  <input
+    class="search"
+    id="search"
+    type="search"
+    placeholder="🔍 Apps और Games खोजें..."
+    aria-label="Apps खोजें"
+  >
+</header>
+
+<section class="banner">
+  <h2>Welcome to Bharat Play!</h2>
+  <p>अपनी पसंद की Apps और Games खोजें। Install बटन दबाकर आधिकारिक डाउनलोड पेज खोलें।</p>
+</section>
+
+<h2 class="section-title">📂 Categories</h2>
+
+<div class="categories" id="categories">
+  <button class="category active" data-category="सभी">सभी</button>
+  <button class="category" data-category="Social">Social</button>
+  <button class="category" data-category="Video">Video</button>
+  <button class="category" data-category="Shopping">Shopping</button>
+  <button class="category" data-category="Education">Education</button>
+  <button class="category" data-category="Music">Music</button>
+  <button class="category" data-category="Games">Games</button>
+  <button class="category" data-category="Tools">Tools</button>
+  <button class="category" data-category="Travel">Travel</button>
+  <button class="category" data-category="Finance">Finance</button>
+</div>
+
+<h2 class="section-title" id="listTitle">🔥 Popular Apps</h2>
+
+<div class="apps" id="apps"></div>
+
+<p class="note">
+  नोट: Install बटन संबंधित ऐप के Google Play पेज को खोलता है।
+  ऐप की उपलब्धता आपके डिवाइस और क्षेत्र पर निर्भर कर सकती है।
+  Bharat Play इन ऐप्स का मालिक नहीं है।
+</p>
+
+<footer>
+  🇮🇳 Bharat Play Super Store<br>
+  Discover Apps • Explore Games • Find Your Favorites<br>
+  © 2026 Bharat Play
+</footer>
+
+<script>
+const appList = [
+  {name:"YouTube",icon:"▶️",cat:"Video",pkg:"com.google.android.youtube"},
+  {name:"YouTube Music",icon:"🎵",cat:"Music",pkg:"com.google.android.apps.youtube.music"},
+  {name:"WhatsApp",icon:"💬",cat:"Social",pkg:"com.whatsapp"},
+  {name:"Instagram",icon:"📸",cat:"Social",pkg:"com.instagram.android"},
+  {name:"Facebook",icon:"👥",cat:"Social",pkg:"com.facebook.katana"},
+  {name:"Messenger",icon:"💌",cat:"Social",pkg:"com.facebook.orca"},
+  {name:"Snapchat",icon:"👻",cat:"Social",pkg:"com.snapchat.android"},
+  {name:"Telegram",icon:"✈️",cat:"Social",pkg:"org.telegram.messenger"},
+  {name:"Pinterest",icon:"📌",cat:"Social",pkg:"com.pinterest"},
+  {name:"X",icon:"𝕏",cat:"Social",pkg:"com.twitter.android"},
+  {name:"ShareChat",icon:"🗣️",cat:"Social",pkg:"in.mohalla.sharechat"},
+  {name:"Moj",icon:"🎬",cat:"Video",pkg:"in.mohalla.video"},
+  {name:"MX Player",icon:"🎞️",cat:"Video",pkg:"com.mxtech.videoplayer.ad"},
+  {name:"VLC",icon:"🟠",cat:"Video",pkg:"org.videolan.vlc"},
+  {name:"Netflix",icon:"🎥",cat:"Video",pkg:"com.netflix.mediaclient"},
+  {name:"Amazon Prime Video",icon:"🎭",cat:"Video",pkg:"com.amazon.avod.thirdpartyclient"},
+  {name:"Spotify",icon:"🎧",cat:"Music",pkg:"com.spotify.music"},
+  {name:"Shazam",icon:"🎼",cat:"Music",pkg:"com.shazam.android"},
+  {name:"Amazon Shopping",icon:"📦",cat:"Shopping",pkg:"in.amazon.mShop.android.shopping"},
+  {name:"Flipkart",icon:"🛍️",cat:"Shopping",pkg:"com.flipkart.android"},
+  {name:"Meesho",icon:"🛒",cat:"Shopping",pkg:"com.meesho.supply"},
+  {name:"Myntra",icon:"👕",cat:"Shopping",pkg:"com.myntra.android"},
+  {name:"AJIO",icon:"👗",cat:"Shopping",pkg:"com.ril.ajio"},
+  {name:"Google",icon:"🔎",cat:"Tools",pkg:"com.google.android.googlequicksearchbox"},
+  {name:"Google Chrome",icon:"🌐",cat:"Tools",pkg:"com.android.chrome"},
+  {name:"Google Maps",icon:"🗺️",cat:"Travel",pkg:"com.google.android.apps.maps"},
+  {name:"Google Drive",icon:"☁️",cat:"Tools",pkg:"com.google.android.apps.docs"},
+  {name:"Google Photos",icon:"🌄",cat:"Tools",pkg:"com.google.android.apps.photos"},
+  {name:"Gmail",icon:"✉️",cat:"Tools",pkg:"com.google.android.gm"},
+  {name:"Google Translate",icon:"🌍",cat:"Education",pkg:"com.google.android.apps.translate"},
+  {name:"Google Meet",icon:"📹",cat:"Tools",pkg:"com.google.android.apps.meetings"},
+  {name:"Google Classroom",icon:"🏫",cat:"Education",pkg:"com.google.android.apps.classroom"},
+  {name:"Duolingo",icon:"🦉",cat:"Education",pkg:"com.duolingo"},
+  {name:"Khan Academy",icon:"📚",cat:"Education",pkg:"org.khanacademy.android"},
+  {name:"Photomath",icon:"➗",cat:"Education",pkg:"com.microblink.photomath"},
+  {name:"Udemy",icon:"🎓",cat:"Education",pkg:"com.udemy.android"},
+  {name:"Coursera",icon:"📖",cat:"Education",pkg:"org.coursera.android"},
+  {name:"Canva",icon:"🎨",cat:"Tools",pkg:"com.canva.editor"},
+  {name:"Adobe Acrobat Reader",icon:"📄",cat:"Tools",pkg:"com.adobe.reader"},
+  {name:"Microsoft Word",icon:"📝",cat:"Tools",pkg:"com.microsoft.office.word"},
+  {name:"Microsoft Excel",icon:"📊",cat:"Tools",pkg:"com.microsoft.office.excel"},
+  {name:"Microsoft PowerPoint",icon:"📽️",cat:"Tools",pkg:"com.microsoft.office.powerpoint"},
+  {name:"Google Pay",icon:"💳",cat:"Finance",pkg:"com.google.android.apps.nbu.paisa.user"},
+  {name:"PhonePe",icon:"💜",cat:"Finance",pkg:"com.phonepe.app"},
+  {name:"Paytm",icon:"💰",cat:"Finance",pkg:"net.one97.paytm"},
+  {name:"Amazon Kindle",icon:"📚",cat:"Education",pkg:"com.amazon.kindle"},
+  {name:"Duolingo ABC",icon:"🔤",cat:"Education",pkg:"com.duolingo.literacy"},
+  {name:"Uber",icon:"🚕",cat:"Travel",pkg:"com.ubercab"},
+  {name:"Ola",icon:"🚖",cat:"Travel",pkg:"com.olacabs.customer"},
+  {name:"Google Earth",icon:"🌎",cat:"Travel",pkg:"com.google.earth"},
+  {name:"Subway Surfers",icon:"🏃",cat:"Games",pkg:"com.kiloo.subwaysurf"},
+  {name:"Candy Crush Saga",icon:"🍬",cat:"Games",pkg:"com.king.candycrushsaga"},
+  {name:"Clash of Clans",icon:"⚔️",cat:"Games",pkg:"com.supercell.clashofclans"},
+  {name:"Clash Royale",icon:"👑",cat:"Games",pkg:"com.supercell.clashroyale"},
+  {name:"Minecraft",icon:"🧱",cat:"Games",pkg:"com.mojang.minecraftpe"},
+  {name:"Roblox",icon:"🎮",cat:"Games",pkg:"com.roblox.client"},
+  {name:"Hill Climb Racing",icon:"🚙",cat:"Games",pkg:"com.fingersoft.hillclimb"},
+  {name:"Temple Run 2",icon:"🏃‍♂️",cat:"Games",pkg:"com.imangi.templerun2"},
+  {name:"Ludo King",icon:"🎲",cat:"Games",pkg:"com.ludo.king"},
+  {name:"8 Ball Pool",icon:"🎱",cat:"Games",pkg:"com.miniclip.eightballpool"},
+  {name:"Angry Birds 2",icon:"🐦",cat:"Games",pkg:"com.rovio.baba"},
+  {name:"Asphalt 8",icon:"🏎️",cat:"Games",pkg:"com.gameloft.android.ANMP.GloftA8HM"},
+  {name:"Plants vs Zombies 2",icon:"🌻",cat:"Games",pkg:"com.ea.game.pvz2_row"},
+  {name:"Chess",icon:"♟️",cat:"Games",pkg:"com.chess"},
+  {name:"Google Calendar",icon:"📅",cat:"Tools",pkg:"com.google.android.calendar"},
+  {name:"Google Keep",icon:"🗒️",cat:"Tools",pkg:"com.google.android.keep"},
+  {name:"Files by Google",icon:"📁",cat:"Tools",pkg:"com.google.android.apps.nbu.files"},
+  {name:"Microsoft OneDrive",icon:"☁️",cat:"Tools",pkg:"com.microsoft.skydrive"},
+  {name:"Microsoft Teams",icon:"👔",cat:"Tools",pkg:"com.microsoft.teams"},
+  {name:"Zoom",icon:"🎥",cat:"Tools",pkg:"us.zoom.videomeetings"},
+  {name:"Truecaller",icon:"📞",cat:"Tools",pkg:"com.truecaller"},
+  {name:"AccuWeather",icon:"🌤️",cat:"Tools",pkg:"com.accuweather.android"},
+  {name:"Snapseed",icon:"🖼️",cat:"Tools",pkg:"com.niksoftware.snapseed"},
+  {name:"Picsart",icon:"🖌️",cat:"Tools",pkg:"com.picsart.studio"},
+  {name:"InShot",icon:"✂️",cat:"Tools",pkg:"com.camerasideas.instashot"},
+  {name:"CapCut",icon:"🎬",cat:"Tools",pkg:"com.lemon.lvoverseas"},
+  {name:"Zomato",icon:"🍽️",cat:"Shopping",pkg:"com.application.zomato"},
+  {name:"Swiggy",icon:"🍔",cat:"Shopping",pkg:"in.swiggy.android"},
+  {name:"IRCTC Rail Connect",icon:"🚆",cat:"Travel",pkg:"cris.org.in.prs.ima"},
+  {name:"Google Wallet",icon:"👛",cat:"Finance",pkg:"com.google.android.apps.walletnfcrel"},
+  {name:"Duolingo Math",icon:"➕",cat:"Education",pkg:"com.duolingo.math"},
+  {name:"Wikipedia",icon:"📘",cat:"Education",pkg:"org.wikipedia"},
+  {name:"Reddit",icon:"🤖",cat:"Social",pkg:"com.reddit.frontpage"},
+  {name:"Discord",icon:"🎮",cat:"Social",pkg:"com.discord"},
+  {name:"LinkedIn",icon:"💼",cat:"Social",pkg:"com.linkedin.android"},
+  {name:"Opera Browser",icon:"🔴",cat:"Tools",pkg:"com.opera.browser"},
+  {name:"Firefox Browser",icon:"🦊",cat:"Tools",pkg:"org.mozilla.firefox"},
+  {name:"SoundCloud",icon:"🎶",cat:"Music",pkg:"com.soundcloud.android"},
+  {name:"JioSaavn",icon:"🎵",cat:"Music",pkg:"com.jio.media.jiobeats"},
+  {name:"Wynk Music",icon:"🎧",cat:"Music",pkg:"com.bsbportal.music"},
+  {name:"Twitch",icon:"🟣",cat:"Video",pkg:"tv.twitch.android.app"},
+  {name:"Tubi",icon:"📺",cat:"Video",pkg:"com.tubitv"},
+  {name:"Booking.com",icon:"🏨",cat:"Travel",pkg:"com.booking"},
+  {name:"MakeMyTrip",icon:"✈️",cat:"Travel",pkg:"com.makemytrip"},
+  {name:"Duolingo English Test",icon:"📝",cat:"Education",pkg:"com.detmobile"},
+  {name:"KineMaster",icon:"🎬",cat:"Tools",pkg:"com.nexstreaming.app.kinemasterfree"},
+  {name:"Bitwarden",icon:"🔐",cat:"Tools",pkg:"com.x8bit.bitwarden"},
+  {name:"Google Home",icon:"🏠",cat:"Tools",pkg:"com.google.android.apps.chromecast.app"},
+  {name:"Telegram X",icon:"✈️",cat:"Social",pkg:"org.thunderdog.challegram"}
+];
+
+const appsContainer = document.getElementById("apps");
+const searchInput = document.getElementById("search");
+const categoryButtons = document.querySelectorAll(".category");
+
+let selectedCategory = "सभी";
+
+function renderApps() {
+  const query = searchInput.value.trim().toLowerCase();
+
+  const filtered = appList.filter(app => {
+    const matchesName = app.name.toLowerCase().includes(query);
+    const matchesCategory =
+      selectedCategory === "सभी" || app.cat === selectedCategory;
+
+    return matchesName && matchesCategory;
+  });
+
+  document.getElementById("listTitle").textContent =
+    query ? "🔍 Search Results" :
+    selectedCategory === "सभी" ? "🔥 Popular Apps" :
+    "📱 " + selectedCategory + " Apps";
+
+  if (!filtered.length) {
+    appsContainer.innerHTML =
+      '<div class="empty">कोई App नहीं मिली। दूसरा नाम खोजें।</div>';
+    return;
+  }
+
+  appsContainer.innerHTML = filtered.map(app => `
+    <article class="card">
+      <div class="app-icon">${app.icon}</div>
+      <div class="app-name">${app.name}</div>
+      <div class="app-category">${app.cat}</div>
+      <div class="rating">★ Popular App</div>
+      <a
+        class="install"
+        href="https://play.google.com/store/apps/details?id=${encodeURIComponent(app.pkg)}"
+        target="_blank"
+        rel="noopener noreferrer"
+      >Install / Download</a>
+    </article>
+  `).join("");
+}
+
+searchInput.addEventListener("input", renderApps);
+
+categoryButtons.forEach(button => {
+  button.addEventListener("click", () => {
+    selectedCategory = button.dataset.category;
+
+    categoryButtons.forEach(item => {
+      item.classList.toggle("active", item === button);
+    });
+
+    renderApps();
+  });
+});
+
+renderApps();
+</script>
+
+</body>
+</html>
