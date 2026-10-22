@@ -6,10 +6,8 @@ workflow_dispatch:
 jobs:
 check:
 runs-on: ubuntu-latest
-
 steps:
-  - name: Check website
-    run: echo "Bharat Play workflow is running"
-
-  - name: Check manifest
-    run: curl -fL "https://manmohan595120-alt.github.io/Bharat--play-/manifest.json" -o manifest.json
+- name: Check website
+run: echo "Bharat Play workflow is running"
+- name: Check manifest
+run: curl -fL "https://manmohan595120-alt.github.io/Bharat--play-/manifest.json" -o manifest.json
