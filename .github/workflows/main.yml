@@ -1,6 +1,6 @@
 name: Bharat Play APK Build
 
-"on":
+on:
 workflow_dispatch:
 
 jobs:
