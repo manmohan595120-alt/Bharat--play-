@@ -1,10 +1,19 @@
-name: Bharat Play Test
+name: Bharat Play
 
-on:
+"on":
 workflow_dispatch:
 
 jobs:
-test:
+check:
+name: Check Bharat Play Website
 runs-on: ubuntu-latest
+
 steps:
-- run: echo Hello Bharat Play
+  - name: Test workflow
+    run: echo "Bharat Play workflow started successfully"
+
+  - name: Check website
+    run: curl --fail --silent --show-error --location "https://manmohan595120-alt.github.io/Bharat--play-/" --output /dev/null
+
+  - name: Check manifest
+    run: curl --fail --silent --show-error --location "https://manmohan595120-alt.github.io/Bharat--play-/manifest.json" --output manifest.json
