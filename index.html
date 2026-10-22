@@ -60,6 +60,30 @@ footer{text-align:center;padding:25px 12px;color:#637168;font-size:12px}
 <link rel="apple-touch-icon" href="icon-192.png">
 <link rel="manifest" href="manifest.json">
 <body>
+  <button id="installBtn" style="display:none;background:#087f5b;color:white;padding:12px 20px;border:0;border-radius:8px;font-size:16px;font-weight:bold;">
+📲 Install Bharat Play
+</button><script>
+let deferredPrompt;
+const installBtn = document.getElementById("installBtn");
+
+window.addEventListener("beforeinstallprompt", (event) => {
+  event.preventDefault();
+  deferredPrompt = event;
+  installBtn.style.display = "block";
+});
+
+installBtn.addEventListener("click", async () => {
+  if (!deferredPrompt) {
+    alert("Chrome ke menu (⋮) se Install app chunein.");
+    return;
+  }
+
+  deferredPrompt.prompt();
+  await deferredPrompt.userChoice;
+  deferredPrompt = null;
+  installBtn.style.display = "none";
+});
+</script>
 <header>
   <div class="brand">
     <div class="logo">🇮🇳</div>
