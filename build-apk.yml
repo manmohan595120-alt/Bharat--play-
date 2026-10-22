@@ -1,0 +1,8 @@
+name: Bharat Play APK Build
+on: workflow_dispatch:
+jobs: check: runs-on: ubuntu-latest steps: - name: Download Bharat Play website manifest run: | curl -fL "https://manmohan595120-alt.github.io/Bharat--play-/manifest.json" -o manifest.json cat manifest.json
+- name: Upload manifest
+    uses: actions/upload-artifact@v4
+    with:
+      name: bharat-play-manifest
+      path: manifest.json
