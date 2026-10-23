@@ -20,20 +20,37 @@ jobs:
           distribution: temurin
           java-version: "17"
 
-      - name: Check AAB file
+      - name: Find AAB file
+        shell: bash
         run: |
-          if [ ! -f "Bharat-Play.aab" ]; then
-            echo "Bharat-Play.aab file not found!"
-            echo "Check the AAB filename in your repository."
+          AAB_FILE=$(find . -maxdepth 3 -type f -iname '*unsigned*.aab' \
+            -not -path './.git/*' -print -quit)
+
+          if [ -z "$AAB_FILE" ]; then
+            AAB_FILE=$(find . -maxdepth 3 -type f -iname '*.aab' \
+              -not -path './.git/*' -print -quit)
+          fi
+
+          if [ -z "$AAB_FILE" ]; then
+            echo "ERROR: No AAB file found in the repository."
             exit 1
           fi
 
+          echo "Found AAB file: $AAB_FILE"
+          cp "$AAB_FILE" input.aab
+
       - name: Download Bundletool
         run: |
-          URL=$(curl -fsSL https://api.github.com/repos/google/bundletool/releases/latest \
+          URL=$(curl -fsSL \
+            https://api.github.com/repos/google/bundletool/releases/latest \
             | jq -r '.assets[] | select(.name | startswith("bundletool-all-") and endswith(".jar")) | .browser_download_url' \
             | head -n 1)
-          test -n "$URL"
+
+          if [ -z "$URL" ]; then
+            echo "Could not find Bundletool download."
+            exit 1
+          fi
+
           curl -fL "$URL" -o bundletool.jar
 
       - name: Create temporary signing key
@@ -51,13 +68,14 @@ jobs:
       - name: Build APK
         run: |
           java -jar bundletool.jar build-apks \
-            --bundle=Bharat-Play.aab \
+            --bundle=input.aab \
             --output=Bharat-Play.apks \
             --mode=universal \
             --ks=debug.keystore \
             --ks-key-alias=androiddebugkey \
             --ks-pass=pass:android \
             --key-pass=pass:android
+
           mkdir -p output
           unzip -o Bharat-Play.apks universal.apk -d output
 
