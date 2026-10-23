@@ -1,0 +1,69 @@
+name: Bharat Play APK Builder
+
+on:
+  workflow_dispatch:
+
+permissions:
+  contents: read
+
+jobs:
+  build:
+    runs-on: ubuntu-latest
+
+    steps:
+      - name: Download repository files
+        uses: actions/checkout@v4
+
+      - name: Set up Java
+        uses: actions/setup-java@v4
+        with:
+          distribution: temurin
+          java-version: "17"
+
+      - name: Check AAB file
+        run: |
+          if [ ! -f "Bharat-Play.aab" ]; then
+            echo "Bharat-Play.aab file not found!"
+            echo "Check the AAB filename in your repository."
+            exit 1
+          fi
+
+      - name: Download Bundletool
+        run: |
+          URL=$(curl -fsSL https://api.github.com/repos/google/bundletool/releases/latest \
+            | jq -r '.assets[] | select(.name | startswith("bundletool-all-") and endswith(".jar")) | .browser_download_url' \
+            | head -n 1)
+          test -n "$URL"
+          curl -fL "$URL" -o bundletool.jar
+
+      - name: Create temporary signing key
+        run: |
+          keytool -genkeypair -v \
+            -keystore debug.keystore \
+            -storepass android \
+            -alias androiddebugkey \
+            -keypass android \
+            -keyalg RSA \
+            -keysize 2048 \
+            -validity 10000 \
+            -dname "CN=Android Debug,O=Android,C=US"
+
+      - name: Build APK
+        run: |
+          java -jar bundletool.jar build-apks \
+            --bundle=Bharat-Play.aab \
+            --output=Bharat-Play.apks \
+            --mode=universal \
+            --ks=debug.keystore \
+            --ks-key-alias=androiddebugkey \
+            --ks-pass=pass:android \
+            --key-pass=pass:android
+          mkdir -p output
+          unzip -o Bharat-Play.apks universal.apk -d output
+
+      - name: Upload APK
+        uses: actions/upload-artifact@v4
+        with:
+          name: Bharat-Play-APK
+          path: output/universal.apk
+          if-no-files-found: error
